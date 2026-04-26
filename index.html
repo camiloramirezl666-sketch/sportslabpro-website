@@ -1296,6 +1296,49 @@ footer {
   .pricing-header { padding: 28px 24px 20px; }
   .pricing-body { padding: 24px; }
 }
+
+/* Chapter list styles */
+.module-chapters {
+  list-style: none;
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.chapter-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--muted);
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+.chapter-item.free {
+  color: var(--text);
+  background: rgba(245,158,11,0.08);
+  border-color: rgba(245,158,11,0.2);
+}
+.chapter-icon { flex-shrink: 0; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; }
+.chapter-icon svg { width: 14px; height: 14px; }
+.chapter-free-badge {
+  margin-left: auto;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--gold);
+  background: rgba(245,158,11,0.12);
+  border: 1px solid rgba(245,158,11,0.3);
+  padding: 2px 7px; border-radius: 100px;
+}
+.modules-grid-new {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-top: 56px;
+}
+@media (max-width: 768px) { .modules-grid-new { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -1341,7 +1384,7 @@ footer {
     <div class="hero-actions">
       <a href="#pricing" class="btn-gold">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-        Quiero el programa
+        Empieza ahora
       </a>
       <a href="#modulos" class="btn-ghost">Ver contenido</a>
     </div>
@@ -1509,72 +1552,142 @@ footer {
     <div class="section-label reveal">El contenido</div>
     <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:20px;">
       <h2 class="section-title reveal" style="margin-bottom:0;">
-        6 módulos.<br>
+        4 módulos.<br>
         <span class="accent">Todo el proceso.</span>
       </h2>
-      <p class="reveal" style="font-size:15px; color:var(--muted); max-width:320px; line-height:1.6; font-weight:300; margin-bottom:4px;">70-80 minutos de contenido real. Acceso de por vida desde cualquier dispositivo.</p>
+      <p class="reveal" style="font-size:15px; color:var(--muted); max-width:320px; line-height:1.6; font-weight:300; margin-bottom:4px;">20 capítulos de contenido real. Acceso de por vida desde cualquier dispositivo.</p>
     </div>
-    <div class="modules-grid">
+    <div class="modules-grid-new">
+
+      <!-- MÓDULO 1 -->
       <div class="module-card reveal reveal-delay-1">
         <div class="module-num">01</div>
         <div class="module-tag">Introducción</div>
         <div class="module-title">Cómo funciona el sistema universitario en USA</div>
-        <div class="module-desc">NCAA, NAIA, JUCO — las divisiones, cómo piensan los coaches y por qué el proceso no funciona como crees.</div>
-        <div class="module-footer">
-          <span class="module-time">12 min</span>
-          <div class="module-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+        <ul class="module-chapters">
+          <li class="chapter-item free">
+            <span class="chapter-icon" style="color:var(--gold);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+            Bienvenida al programa
+            <span class="chapter-free-badge">Gratis</span>
+          </li>
+          <li class="chapter-item">
+            <span class="chapter-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></span>
+            NCAA, NAIA y JUCO — las diferencias clave
+          </li>
+          <li class="chapter-item">
+            <span class="chapter-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></span>
+            Cómo piensan los coaches de reclutamiento
+          </li>
+          <li class="chapter-item">
+            <span class="chapter-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></span>
+            El calendario del proceso paso a paso
+          </li>
+          <li class="chapter-item">
+            <span class="chapter-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></span>
+            Los errores más comunes que te eliminan
+          </li>
+        </ul>
+        <div class="module-footer" style="margin-top:20px;">
+          <span class="module-time">5 capítulos · ~25 min</span>
         </div>
       </div>
+
+      <!-- MÓDULO 2 -->
       <div class="module-card reveal reveal-delay-2">
         <div class="module-num">02</div>
-        <div class="module-tag">Más importante</div>
-        <div class="module-title">El video de reclutamiento que llama la atención</div>
-        <div class="module-desc">Los primeros 30 segundos lo deciden todo. Qué incluir, qué cortar, y los errores que te eliminan automáticamente.</div>
-        <div class="module-footer">
-          <span class="module-time">14 min</span>
-          <div class="module-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+        <div class="module-tag">Tu perfil</div>
+        <div class="module-title">El video y perfil que abren puertas</div>
+        <ul class="module-chapters">
+          <li class="chapter-item">
+            <span class="chapter-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></span>
+            Los primeros 30 segundos lo deciden todo
+          </li>
+          <li class="chapter-item">
+            <span class="chapter-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></span>
+            Qué incluir y qué cortar de tu video
+          </li>
+          <li class="chapter-item">
+            <span class="chapter-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></span>
+            Tu perfil académico — GPA, TOEFL, idioma
+          </li>
+          <li class="chapter-item">
+            <span class="chapter-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></span>
+            Cómo usar redes sociales a tu favor
+          </li>
+          <li class="chapter-item">
+            <span class="chapter-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></span>
+            El athlete profile que usan los pros
+          </li>
+        </ul>
+        <div class="module-footer" style="margin-top:20px;">
+          <span class="module-time">5 capítulos · ~28 min</span>
         </div>
       </div>
+
+      <!-- MÓDULO 3 -->
       <div class="module-card reveal reveal-delay-3">
         <div class="module-num">03</div>
-        <div class="module-tag">Documentación</div>
-        <div class="module-title">Tu perfil académico y los documentos reales</div>
-        <div class="module-desc">GPA, TOEFL, athlete profile, redes sociales — todo lo que revisan antes de darte una oportunidad.</div>
-        <div class="module-footer">
-          <span class="module-time">11 min</span>
-          <div class="module-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+        <div class="module-tag">El proceso</div>
+        <div class="module-title">Documentación, costos y vida en USA</div>
+        <ul class="module-chapters">
+          <li class="chapter-item">
+            <span class="chapter-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></span>
+            Los documentos reales que te piden
+          </li>
+          <li class="chapter-item">
+            <span class="chapter-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></span>
+            Beca completa vs parcial — cómo leer una oferta
+          </li>
+          <li class="chapter-item">
+            <span class="chapter-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></span>
+            Costos de vida que nadie calcula antes de llegar
+          </li>
+          <li class="chapter-item">
+            <span class="chapter-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></span>
+            Vivienda, comida, idioma y choque cultural
+          </li>
+          <li class="chapter-item">
+            <span class="chapter-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></span>
+            Salud mental — la realidad de irse a jugar y estudiar
+          </li>
+        </ul>
+        <div class="module-footer" style="margin-top:20px;">
+          <span class="module-time">5 capítulos · ~26 min</span>
         </div>
       </div>
-      <div class="module-card reveal reveal-delay-1">
-        <div class="module-num">04</div>
-        <div class="module-tag">Económico</div>
-        <div class="module-title">Los costos reales sin adornos</div>
-        <div class="module-desc">Beca completa vs parcial, costos de vida, cómo leer una oferta antes de firmarla. Lo que nadie calcula antes de llegar.</div>
-        <div class="module-footer">
-          <span class="module-time">13 min</span>
-          <div class="module-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-        </div>
-      </div>
-      <div class="module-card reveal reveal-delay-2">
-        <div class="module-num">05</div>
-        <div class="module-tag">Vida en USA</div>
-        <div class="module-title">Lo bueno y lo que nadie te dice</div>
-        <div class="module-desc">Vivienda, comida, idioma, choque cultural, salud mental — la realidad de irse a otro país a jugar y estudiar.</div>
-        <div class="module-footer">
-          <span class="module-time">11 min</span>
-          <div class="module-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-        </div>
-      </div>
-      <div class="module-card module-special reveal reveal-delay-3">
-        <div class="module-num" style="color:rgba(245,158,11,0.08);">06</div>
+
+      <!-- MÓDULO 4 -->
+      <div class="module-card module-special reveal reveal-delay-1">
+        <div class="module-num" style="color:rgba(245,158,11,0.08);">04</div>
         <div class="module-tag">El diferencial</div>
-        <div class="module-title">Acceso a nuestros contactos y agencias reales</div>
-        <div class="module-desc">La razón por la que este curso es diferente. Conexión directa con managers y agencias que trabajan con universidades todos los años.</div>
-        <div class="module-footer">
-          <span class="module-time">10 min</span>
-          <div class="module-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+        <div class="module-title">Acceso a contactos y agencias reales</div>
+        <ul class="module-chapters">
+          <li class="chapter-item">
+            <span class="chapter-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></span>
+            Cómo funcionan las agencias de reclutamiento
+          </li>
+          <li class="chapter-item">
+            <span class="chapter-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></span>
+            A quién hay que hablarle y cómo hacerlo
+          </li>
+          <li class="chapter-item">
+            <span class="chapter-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></span>
+            Acceso directo a nuestra red de managers
+          </li>
+          <li class="chapter-item">
+            <span class="chapter-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></span>
+            Cómo usar los contactos correctamente
+          </li>
+          <li class="chapter-item">
+            <span class="chapter-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></span>
+            Próximos pasos después del programa
+          </li>
+        </ul>
+        <div class="module-footer" style="margin-top:20px;">
+          <span class="module-time">5 capítulos · ~22 min</span>
         </div>
       </div>
+
     </div>
   </div>
 </div>
@@ -1816,7 +1929,7 @@ footer {
       <ul class="pricing-features-list">
         <li class="pricing-feature">
           <div class="pricing-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
-          6 módulos con guías paso a paso
+          4 módulos con guías paso a paso
         </li>
         <li class="pricing-feature">
           <div class="pricing-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
