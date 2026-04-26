@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sports Lab Pro — Acceso Anticipado</title>
+<meta name="description" content="Los primeros pagan menos. Regístrate para acceso anticipado y precio especial de lanzamiento.">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://sportslabpro.com/preventa">
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sportslabpro.com/preventa">
+<meta property="og:title" content="Sports Lab Pro — Acceso Anticipado">
+<meta property="og:description" content="Los primeros pagan menos. Regístrate y asegura tu precio especial antes del lanzamiento.">
+<meta property="og:locale" content="es_CO">
+<meta property="og:site_name" content="Sports Lab Pro">
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;600;700&family=Barlow+Condensed:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+
+  :root {
+    --navy: #04112b;
+    --navy2: #060f24;
+    --gold: #f59e0b;
+    --gold2: #d97706;
+    --text: #e8e6e1;
+    --muted: rgba(232,230,225,0.45);
+    --border: rgba(255,255,255,0.07);
+  }
+
+  body {
+    background: var(--navy);
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Background */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(245,158,11,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 80%, rgba(26,79,214,0.1) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  /* Noise */
+  body::after {
+    content: '';
+    position: fixed; inset: 0; z-index: 1;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none; opacity: 0.4;
+  }
+
+  .wrapper {
+    position: relative; z-index: 2;
+    width: 100%; max-width: 520px;
+    padding: 48px 32px;
+    text-align: center;
+  }
+
+  /* Logo */
+  .logo {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    margin-bottom: 48px;
+  }
+  .logo-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px; letter-spacing: 4px;
+    color: var(--text);
+  }
+  .logo-text span { color: var(--gold); }
+
+  /* Badge */
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(245,158,11,0.1);
+    border: 1px solid rgba(245,158,11,0.3);
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 32px;
+  }
+  .badge-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--gold);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  /* Headline */
+  .headline {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 12vw, 80px);
+    line-height: 0.95;
+    letter-spacing: 2px;
+    margin-bottom: 24px;
+  }
+  .headline .dim { color: rgba(232,230,225,0.15); display: block; }
+  .headline .gold { color: var(--gold); }
+
+  /* Subtext */
+  .subtext {
+    font-size: 16px; line-height: 1.75;
+    color: var(--muted);
+    max-width: 400px; margin: 0 auto 40px;
+  }
+  .subtext strong { color: var(--text); font-weight: 600; }
+
+  /* Divider */
+  .divider {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 32px;
+    color: rgba(232,230,225,0.15);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+  }
+  .divider::before, .divider::after {
+    content: ''; flex: 1; height: 0.5px;
+    background: rgba(232,230,225,0.1);
+  }
+
+  /* Form */
+  .form { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+
+  .input-group { display: flex; flex-direction: column; gap: 12px; }
+
+  .form-input {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    font-size: 15px; font-weight: 300;
+    padding: 15px 20px;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  .form-input::placeholder { color: rgba(232,230,225,0.25); }
+  .form-input:focus { border-color: rgba(245,158,11,0.4); }
+
+  .form-btn {
+    width: 100%;
+    background: var(--gold);
+    color: #000;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    border: none; border-radius: 10px;
+    padding: 17px 32px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    margin-top: 4px;
+  }
+  .form-btn:hover {
+    background: var(--gold2);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(245,158,11,0.35);
+  }
+  .form-btn svg { width: 18px; height: 18px; }
+
+  /* Success */
+  .success {
+    display: none;
+    flex-direction: column; align-items: center; gap: 16px;
+    padding: 40px 32px;
+    background: rgba(245,158,11,0.06);
+    border: 1px solid rgba(245,158,11,0.2);
+    border-radius: 16px;
+    margin-bottom: 16px;
+  }
+  .success-icon {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: rgba(245,158,11,0.12);
+    border: 1px solid rgba(245,158,11,0.3);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .success-icon svg { width: 24px; height: 24px; color: var(--gold); }
+  .success-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px; font-weight: 700; letter-spacing: 1px;
+  }
+  .success-sub { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+  /* Fine print */
+  .fine-print {
+    font-size: 12px; color: rgba(232,230,225,0.2);
+    line-height: 1.6; margin-bottom: 48px;
+  }
+
+  /* Benefits */
+  .benefits {
+    display: flex; flex-direction: column; gap: 10px;
+    margin-bottom: 48px;
+    text-align: left;
+  }
+  .benefit-item {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 14px; color: var(--muted);
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+  .benefit-item svg { width: 16px; height: 16px; color: var(--gold); flex-shrink: 0; }
+
+  /* Footer */
+  .footer {
+    display: flex; justify-content: space-between; align-items: center;
+    width: 100%; max-width: 520px;
+    padding: 0 32px 40px;
+    position: relative; z-index: 2;
+  }
+  .footer-ig {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: rgba(232,230,225,0.2);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .footer-ig:hover { color: rgba(232,230,225,0.5); }
+  .footer-copy {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px; letter-spacing: 2px;
+    color: rgba(232,230,225,0.1); text-transform: uppercase;
+  }
+
+  @media (max-width: 600px) {
+    .wrapper { padding: 40px 24px; }
+    .footer { padding: 0 24px 32px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+
+  <!-- Logo -->
+  <div class="logo">
+    <svg width="20" height="20" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="11,2 20,18 2,18" stroke="#f59e0b" stroke-width="1.8" fill="none" stroke-linejoin="round"/>
+      <line x1="2" y1="20.5" x2="20" y2="20.5" stroke="#f59e0b" stroke-width="1.8" stroke-linecap="round"/>
+    </svg>
+    <div class="logo-text">SPORTS LAB<span>PRO</span></div>
+  </div>
+
+  <!-- Badge -->
+  <div class="badge">
+    <div class="badge-dot"></div>
+    Acceso anticipado · Plazas limitadas
+  </div>
+
+  <!-- Headline -->
+  <h1 class="headline">
+    Los primeros<br>
+    <span class="gold">pagan menos.</span>
+    <span class="dim">Los demás,<br>esperan.</span>
+  </h1>
+
+  <!-- Subtext -->
+  <p class="subtext">
+    Sports Lab Pro abre pronto. Regístrate hoy y asegura tu <strong>precio especial de lanzamiento</strong> + acceso antes que todos.
+  </p>
+
+  <!-- Benefits -->
+  <div class="benefits">
+    <div class="benefit-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7"/></svg>
+      Precio especial exclusivo para los primeros registrados
+    </div>
+    <div class="benefit-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7"/></svg>
+      Acceso al programa antes del lanzamiento oficial
+    </div>
+    <div class="benefit-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7"/></svg>
+      Sin spam. Solo te avisamos cuando abra.
+    </div>
+  </div>
+
+  <div class="divider">Regístrate ahora</div>
+
+  <!-- Form -->
+  <form class="form" id="preventa-form" onsubmit="handleSubmit(event)">
+    <div class="input-group">
+      <input
+        type="text"
+        name="name"
+        class="form-input"
+        placeholder="Tu nombre"
+        required
+        autocomplete="given-name"
+      >
+      <input
+        type="email"
+        name="email"
+        class="form-input"
+        placeholder="tu@correo.com"
+        required
+        autocomplete="email"
+      >
+      <input type="hidden" name="_subject" value="Nuevo registro preventa — Sports Lab Pro">
+      <input type="hidden" name="_replyto" value="">
+    </div>
+    <button type="submit" class="form-btn" id="submit-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      Quiero acceso anticipado
+    </button>
+  </form>
+
+  <!-- Success -->
+  <div class="success" id="success-msg">
+    <div class="success-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7"/></svg>
+    </div>
+    <div class="success-title">¡Estás dentro.</div>
+    <p class="success-sub">Te avisamos en cuanto abra el programa.<br>Revisa tu correo — te mandamos la confirmación.</p>
+  </div>
+
+  <p class="fine-print">Sin spam. Sin mensualidades. Solo te contactamos cuando el programa esté listo.</p>
+
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <a href="https://www.instagram.com/sportslab_pro/" target="_blank" rel="noopener noreferrer" class="footer-ig">@sportslab_pro</a>
+  <div class="footer-copy">© 2025 Sports Lab Pro</div>
+</div>
+
+<script>
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submit-btn');
+    btn.textContent = '...';
+    btn.disabled = true;
+
+    const form = document.getElementById('preventa-form');
+    const data = new FormData(form);
+
+    try {
+      const res = await fetch('https://formspree.io/f/xpqkepjl', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: data
+      });
+
+      if (res.ok) {
+        form.style.display = 'none';
+        document.getElementById('success-msg').style.display = 'flex';
+      } else {
+        btn.textContent = 'Quiero acceso anticipado';
+        btn.disabled = false;
+      }
+    } catch {
+      btn.textContent = 'Quiero acceso anticipado';
+      btn.disabled = false;
+    }
+  }
+</script>
+
+</body>
+</html>
