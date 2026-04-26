@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Build Your Scholarship Profile — Sports Lab Pro</title>
+<meta name="robots" content="noindex">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,600;0,700;0,900;1,300&family=Barlow+Condensed:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+:root {
+  --navy: #04112b;
+  --navy2: #060f24;
+  --navy3: #0a1a3a;
+  --gold: #f59e0b;
+  --gold2: #d97706;
+  --green: #10b981;
+  --green2: #059669;
+  --yellow: #f59e0b;
+  --red: #ef4444;
+  --text: #e8e6e1;
+  --muted: rgba(232,230,225,0.5);
+  --border: rgba(255,255,255,0.08);
+  --card: rgba(255,255,255,0.03);
+  --input-bg: rgba(255,255,255,0.05);
+  --input-border: rgba(255,255,255,0.1);
+}
+
+body {
+  background: var(--navy2);
+  color: var(--text);
+  font-family: 'Barlow', sans-serif;
+  font-weight: 300;
+  min-height: 100vh;
+}
+
+/* ── PROGRESS BAR ── */
+.progress-bar-wrap {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(6,15,36,0.97);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 24px;
+}
+.progress-inner {
+  max-width: 860px; margin: 0 auto;
+  display: flex; align-items: center; gap: 16px;
+}
+.progress-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--muted); white-space: nowrap;
+}
+.progress-track {
+  flex: 1; height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px;
+}
+.progress-fill {
+  height: 100%; border-radius: 2px;
+  background: linear-gradient(90deg, var(--green), var(--gold));
+  transition: width 0.4s ease;
+  width: 0%;
+}
+.progress-pct {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px; color: var(--gold); min-width: 44px; text-align: right;
+}
+
+/* ── LAYOUT ── */
+.page-wrap {
+  max-width: 860px; margin: 0 auto;
+  padding: 0 24px 80px;
+}
+
+/* ── HERO ── */
+.hero {
+  padding: 72px 0 56px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 56px;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(16,185,129,0.1);
+  border: 1px solid rgba(16,185,129,0.25);
+  border-radius: 100px;
+  padding: 6px 16px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--green); margin-bottom: 28px;
+}
+.hero-badge-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--green);
+}
+.hero h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(44px, 8vw, 72px);
+  letter-spacing: 2px; line-height: 0.95;
+  margin-bottom: 24px;
+}
+.hero h1 span { color: var(--gold); }
+.hero-sub {
+  font-size: 16px; line-height: 1.8; color: var(--muted);
+  max-width: 600px; margin: 0 auto 36px;
+}
+.hero-sub strong { color: var(--text); }
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--green);
+  color: #fff;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 16px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  border: none; border-radius: 10px;
+  padding: 16px 36px; cursor: pointer;
+  transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+  text-decoration: none;
+}
+.btn-primary:hover {
+  background: var(--green2);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 40px rgba(16,185,129,0.3);
+}
+.btn-primary svg { width: 18px; height: 18px; }
+.hero-disclaimer {
+  margin-top: 16px;
+  font-size: 12px; color: rgba(232,230,225,0.3);
+  font-style: italic;
+}
+
+/* ── SECTION CARD ── */
+.section-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 40px;
+  margin-bottom: 24px;
+}
+.section-card + .section-card { }
+
+.section-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 8px;
+}
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px; letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+.section-text {
+  font-size: 14px; line-height: 1.8; color: var(--muted);
+  margin-bottom: 28px;
+}
+.section-text strong { color: var(--text); }
+
+/* ── STATUS CARDS ── */
+.status-cards {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+  margin-bottom: 0;
+}
+.status-card {
+  border-radius: 12px; padding: 24px 20px;
+  border: 1px solid;
+}
+.status-card.green {
+  background: rgba(16,185,129,0.06);
+  border-color: rgba(16,185,129,0.2);
+}
+.status-card.yellow {
+  background: rgba(245,158,11,0.06);
+  border-color: rgba(245,158,11,0.2);
+}
+.status-card.red {
+  background: rgba(239,68,68,0.06);
+  border-color: rgba(239,68,68,0.2);
+}
+.status-dot {
+  width: 10px; height: 10px; border-radius: 50%; margin-bottom: 12px;
+}
+.status-card.green .status-dot { background: var(--green); }
+.status-card.yellow .status-dot { background: var(--yellow); }
+.status-card.red .status-dot { background: var(--red); }
+.status-card-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.status-card.green .status-card-title { color: var(--green); }
+.status-card.yellow .status-card-title { color: var(--yellow); }
+.status-card.red .status-card-title { color: var(--red); }
+.status-card p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+/* ── FORM ── */
+.form-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+}
+.form-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+.form-group {
+  display: flex; flex-direction: column; gap: 6px;
+}
+.form-group.full { grid-column: 1 / -1; }
+.form-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(232,230,225,0.5);
+}
+.form-label span { color: var(--gold); }
+.form-input, .form-select, .form-textarea {
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: 'Barlow', sans-serif;
+  font-size: 14px; font-weight: 300;
+  padding: 12px 16px;
+  outline: none;
+  transition: border-color 0.3s, background 0.3s;
+  width: 100%;
+}
+.form-input::placeholder, .form-textarea::placeholder { color: rgba(232,230,225,0.2); }
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  border-color: rgba(16,185,129,0.4);
+  background: rgba(255,255,255,0.07);
+}
+.form-input.filled, .form-select.filled, .form-textarea.filled {
+  border-color: rgba(16,185,129,0.3);
+}
+.form-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(232,230,225,0.3)' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  cursor: pointer;
+}
+.form-select option { background: var(--navy2); color: var(--text); }
+.form-textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
+
+/* ── RADIO / CHECKBOX GROUPS ── */
+.radio-group {
+  display: flex; gap: 10px; flex-wrap: wrap;
+}
+.radio-option {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: border-color 0.3s, background 0.3s;
+  font-size: 13px;
+  user-select: none;
+}
+.radio-option input { display: none; }
+.radio-option.selected {
+  border-color: rgba(16,185,129,0.4);
+  background: rgba(16,185,129,0.08);
+  color: var(--green);
+}
+.radio-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  border: 1.5px solid rgba(232,230,225,0.3);
+  flex-shrink: 0;
+}
+.radio-option.selected .radio-dot {
+  background: var(--green); border-color: var(--green);
+}
+
+/* ── CHECKLIST ── */
+.checklist {
+  display: flex; flex-direction: column; gap: 10px;
+  margin-bottom: 20px;
+}
+.check-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  cursor: pointer;
+  user-select: none;
+  transition: border-color 0.2s;
+}
+.check-item.checked {
+  border-color: rgba(16,185,129,0.3);
+  background: rgba(16,185,129,0.05);
+}
+.check-box {
+  width: 18px; height: 18px; border-radius: 4px;
+  border: 1.5px solid rgba(232,230,225,0.25);
+  flex-shrink: 0; margin-top: 1px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.check-item.checked .check-box {
+  background: var(--green); border-color: var(--green);
+}
+.check-box svg { width: 11px; height: 11px; opacity: 0; transition: opacity 0.2s; }
+.check-item.checked .check-box svg { opacity: 1; }
+.check-text { font-size: 13px; line-height: 1.5; color: var(--text); }
+.check-item.checked .check-text { color: var(--green); }
+
+/* ── VIDEO CHECKLIST ── */
+.video-checklist-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(232,230,225,0.4); margin-bottom: 12px; margin-top: 24px;
+  display: block;
+}
+
+/* ── RESOURCE CARDS ── */
+.resource-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  margin: 20px 0;
+}
+.resource-card {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 10px;
+  padding: 16px 18px;
+  text-decoration: none;
+  transition: border-color 0.3s, background 0.3s;
+}
+.resource-card:hover {
+  border-color: rgba(245,158,11,0.3);
+  background: rgba(245,158,11,0.05);
+}
+.resource-icon {
+  width: 38px; height: 38px; border-radius: 8px;
+  background: rgba(245,158,11,0.1);
+  border: 1px solid rgba(245,158,11,0.2);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.resource-icon svg { width: 18px; height: 18px; color: var(--gold); }
+.resource-card-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px; font-weight: 700; letter-spacing: 1px;
+  color: var(--text); display: block; margin-bottom: 2px;
+}
+.resource-card-sub { font-size: 11px; color: var(--muted); }
+
+/* ── DOCUMENT CHECKLIST ── */
+.doc-list {
+  display: flex; flex-direction: column; gap: 8px;
+}
+.doc-item {
+  display: flex; align-items: center; gap: 16px;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 10px;
+  padding: 14px 18px;
+}
+.doc-name {
+  flex: 1; font-size: 14px; color: var(--text);
+}
+.doc-status-select {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--input-border);
+  border-radius: 6px;
+  color: var(--text);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12px; font-weight: 600; letter-spacing: 1px;
+  padding: 6px 28px 6px 10px;
+  outline: none; cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='rgba(232,230,225,0.3)' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+.doc-status-select option { background: var(--navy2); }
+.doc-status-select.uploaded { border-color: rgba(16,185,129,0.4); color: var(--green); }
+.doc-status-select.pending { border-color: rgba(245,158,11,0.3); color: var(--yellow); }
+
+/* ── DISCLAIMER BOX ── */
+.disclaimer-box {
+  background: rgba(239,68,68,0.05);
+  border: 1px solid rgba(239,68,68,0.15);
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin: 20px 0 0;
+}
+.disclaimer-box p {
+  font-size: 12px; line-height: 1.7; color: rgba(232,230,225,0.5);
+  font-style: italic;
+}
+.disclaimer-box p strong { color: rgba(232,230,225,0.75); font-style: normal; }
+
+.info-box {
+  background: rgba(245,158,11,0.05);
+  border: 1px solid rgba(245,158,11,0.15);
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-top: 20px;
+}
+.info-box p { font-size: 13px; line-height: 1.7; color: rgba(232,230,225,0.6); }
+.info-box p strong { color: var(--gold); }
+
+/* ── FINAL REVIEW ── */
+.final-checks {
+  display: flex; flex-direction: column; gap: 12px;
+  margin: 24px 0 32px;
+}
+.final-check-item {
+  display: flex; align-items: flex-start; gap: 14px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 16px 18px;
+  cursor: pointer;
+  user-select: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+.final-check-item.checked {
+  border-color: rgba(16,185,129,0.3);
+  background: rgba(16,185,129,0.05);
+}
+.final-check-item .check-box { margin-top: 1px; }
+.final-check-item .check-text {
+  font-size: 14px; line-height: 1.5; color: rgba(232,230,225,0.7);
+}
+.final-check-item.checked .check-text { color: var(--text); }
+
+.btn-submit {
+  width: 100%;
+  background: var(--green);
+  color: #fff;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 18px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+  border: none; border-radius: 12px;
+  padding: 20px 32px; cursor: pointer;
+  transition: background 0.3s, transform 0.2s, box-shadow 0.3s, opacity 0.3s;
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+}
+.btn-submit:disabled {
+  opacity: 0.35; cursor: not-allowed; transform: none !important; box-shadow: none !important;
+}
+.btn-submit:not(:disabled):hover {
+  background: var(--green2);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(16,185,129,0.35);
+}
+.btn-submit svg { width: 20px; height: 20px; }
+.submit-hint {
+  text-align: center; margin-top: 12px;
+  font-size: 12px; color: rgba(232,230,225,0.25);
+}
+
+/* ── THANK YOU ── */
+.thank-you {
+  display: none;
+  text-align: center;
+  padding: 80px 24px;
+}
+.ty-icon {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: rgba(16,185,129,0.12);
+  border: 1px solid rgba(16,185,129,0.3);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 28px;
+}
+.ty-icon svg { width: 36px; height: 36px; color: var(--green); }
+.ty-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(36px, 6vw, 56px); letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+.ty-title span { color: var(--green); }
+.ty-sub {
+  font-size: 15px; line-height: 1.9; color: var(--muted);
+  max-width: 540px; margin: 0 auto 32px;
+}
+.ty-sub strong { color: var(--text); }
+.ty-disclaimer {
+  background: rgba(239,68,68,0.06);
+  border: 1px solid rgba(239,68,68,0.12);
+  border-radius: 12px;
+  padding: 20px 28px;
+  max-width: 500px; margin: 0 auto;
+  font-size: 13px; line-height: 1.7;
+  color: rgba(232,230,225,0.45); font-style: italic;
+}
+
+/* ── DIVIDER ── */
+.section-divider {
+  height: 1px; background: var(--border);
+  margin: 40px 0;
+}
+
+/* ── LOGO TOP ── */
+.page-nav {
+  padding: 24px 0;
+  display: flex; align-items: center; gap: 10px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 0;
+}
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px; letter-spacing: 4px; color: var(--text);
+}
+.nav-logo span { color: var(--gold); }
+
+/* ── MOBILE ── */
+@media (max-width: 640px) {
+  .section-card { padding: 28px 20px; }
+  .form-grid { grid-template-columns: 1fr; }
+  .form-grid.cols-3 { grid-template-columns: 1fr 1fr; }
+  .status-cards { grid-template-columns: 1fr; }
+  .resource-grid { grid-template-columns: 1fr; }
+  .hero { padding: 48px 0 40px; }
+  .progress-inner { gap: 10px; }
+}
+</style>
+</head>
+<body>
+
+<!-- STICKY PROGRESS BAR -->
+<div class="progress-bar-wrap">
+  <div class="progress-inner">
+    <span class="progress-label">Profile Complete</span>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-pct" id="progressPct">0%</div>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+  <!-- NAV -->
+  <div class="page-nav">
+    <svg width="16" height="16" viewBox="0 0 22 22" fill="none">
+      <polygon points="11,2 20,18 2,18" stroke="#f59e0b" stroke-width="1.8" fill="none" stroke-linejoin="round"/>
+      <line x1="2" y1="20.5" x2="20" y2="20.5" stroke="#f59e0b" stroke-width="1.8" stroke-linecap="round"/>
+    </svg>
+    <div class="nav-logo">SPORTS LAB <span>PRO</span></div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">
+      <div class="hero-badge-dot"></div>
+      Create Your Scholarship Profile
+    </div>
+    <h1>Build Your<br><span>Scholarship Profile</span></h1>
+    <p class="hero-sub">
+      Completa tu información paso a paso para que tu perfil pueda ser <strong>evaluado por nuestro equipo</strong> y, si cumple los requisitos mínimos, pueda entrar al radar de agentes conectados con oportunidades universitarias en Estados Unidos.
+    </p>
+    <a href="#section-personal" class="btn-primary">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      Start Building My Profile
+    </a>
+    <p class="hero-disclaimer">Este proceso es de evaluación y preparación. No garantiza beca ni oferta.</p>
+  </div>
+
+  <!-- MAIN FORM -->
+  <div id="mainForm">
+
+    <!-- 1. HOW THIS WORKS -->
+    <div class="section-card">
+      <div class="section-num">Step 00</div>
+      <div class="section-title">How This Profile System Works</div>
+      <p class="section-text">
+        Piensa en esto como un sistema de match. Tú completas tu perfil con tu información, videos, nivel deportivo y académico, inglés, presupuesto y documentos. Luego, tu perfil podrá ser revisado para determinar si está <strong>listo para ser movido con agentes</strong> o si primero necesita mejoras.
+      </p>
+      <div class="status-cards">
+        <div class="status-card green">
+          <div class="status-dot"></div>
+          <div class="status-card-title">Ready to Move</div>
+          <p>Tu perfil cumple criterios mínimos y puede ser considerado para conexión con agentes.</p>
+        </div>
+        <div class="status-card yellow">
+          <div class="status-dot"></div>
+          <div class="status-card-title">Needs Improvement</div>
+          <p>Tienes potencial, pero necesitas mejorar algunos puntos antes de ser movido.</p>
+        </div>
+        <div class="status-card red">
+          <div class="status-dot"></div>
+          <div class="status-card-title">Not Eligible Yet</div>
+          <p>Actualmente tu perfil no cumple los requisitos mínimos. Recibirás claridad sobre qué mejorar.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. PERSONAL INFORMATION -->
+    <div class="section-card" id="section-personal">
+      <div class="section-num">Step 01</div>
+      <div class="section-title">Personal Information</div>
+      <p class="section-text">Completa tu información personal básica. Asegúrate de que todo esté correcto y actualizado.</p>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Full Name <span>*</span></label>
+          <input type="text" class="form-input tracked" id="fullName" placeholder="Tu nombre completo" autocomplete="name">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email <span>*</span></label>
+          <input type="email" class="form-input tracked" id="email" placeholder="tu@correo.com" autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label class="form-label">WhatsApp Number <span>*</span></label>
+          <input type="tel" class="form-input tracked" id="whatsapp" placeholder="+57 300 000 0000" autocomplete="tel">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Country <span>*</span></label>
+          <input type="text" class="form-input tracked" id="country" placeholder="Ej: Colombia, Venezuela, México" autocomplete="country-name">
+        </div>
+        <div class="form-group">
+          <label class="form-label">City</label>
+          <input type="text" class="form-input tracked" id="city" placeholder="Tu ciudad" autocomplete="address-level2">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Age <span>*</span></label>
+          <input type="number" class="form-input tracked" id="age" placeholder="Ej: 18" min="13" max="30">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Date of Birth</label>
+          <input type="date" class="form-input tracked" id="dob">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Current School / Club</label>
+          <input type="text" class="form-input tracked" id="school" placeholder="Nombre de tu colegio o club">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Graduation Year <span>*</span></label>
+          <select class="form-select tracked" id="gradYear">
+            <option value="">Selecciona...</option>
+            <option>2025</option><option>2026</option><option>2027</option>
+            <option>2028</option><option>Ya graduado</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Sport <span>*</span></label>
+          <select class="form-select tracked" id="sport">
+            <option value="">Selecciona...</option>
+            <option>Fútbol / Soccer</option><option>Baloncesto / Basketball</option>
+            <option>Béisbol / Baseball</option><option>Atletismo / Track & Field</option>
+            <option>Natación / Swimming</option><option>Tenis / Tennis</option>
+            <option>Voleibol / Volleyball</option><option>Otro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Position <span>*</span></label>
+          <input type="text" class="form-input tracked" id="position" placeholder="Ej: Delantero, Point Guard">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Height</label>
+          <input type="text" class="form-input tracked" id="height" placeholder="Ej: 1.80 m / 5'11">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Weight</label>
+          <input type="text" class="form-input tracked" id="weight" placeholder="Ej: 75 kg / 165 lbs">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Dominant Foot / Hand</label>
+          <select class="form-select tracked" id="dominant">
+            <option value="">Selecciona...</option>
+            <option>Derecha / Right</option>
+            <option>Izquierda / Left</option>
+            <option>Ambidiestro / Both</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Current Academic Grade / GPA (if available)</label>
+          <input type="text" class="form-input tracked" id="gpa" placeholder="Ej: 3.5 GPA, 85/100, Promedio 8.5">
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. VIDEO HIGHLIGHTS -->
+    <div class="section-card" id="section-video">
+      <div class="section-num">Step 02</div>
+      <div class="section-title">Upload Your Highlights</div>
+      <p class="section-text">
+        Tus highlights son una de las partes <strong>más importantes del perfil</strong>. Deben mostrar tu nivel real, tus fortalezas, tu posición y lo que puedes aportar.
+      </p>
+      <div class="form-grid">
+        <div class="form-group full">
+          <label class="form-label">Link to Highlight Video <span>*</span></label>
+          <input type="url" class="form-input tracked" id="highlightLink" placeholder="https://youtube.com/watch?v=...">
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Link to Full Game Video (if available)</label>
+          <input type="url" class="form-input tracked" id="fullGameLink" placeholder="https://youtube.com/watch?v=...">
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Notes About Your Video</label>
+          <textarea class="form-textarea tracked" id="videoNotes" placeholder="Describe brevemente tu video: qué se ve, qué jugadas destacan, en qué minutos apareces si es un video largo..."></textarea>
+        </div>
+      </div>
+
+      <span class="video-checklist-label">Video Quality Checklist — marca los que aplican a tu video</span>
+      <div class="checklist" id="videoChecklist">
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
+          <span class="check-text">El video muestra claramente quién eres</span>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
+          <span class="check-text">Tus mejores jugadas aparecen al inicio</span>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
+          <span class="check-text">El video tiene buena calidad de imagen</span>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
+          <span class="check-text">Se entiende claramente tu posición</span>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
+          <span class="check-text">Muestra variedad de acciones</span>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
+          <span class="check-text">No es demasiado largo (máx. 5-7 minutos)</span>
+        </div>
+        <div class="check-item" onclick="toggleCheck(this)">
+          <div class="check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
+          <span class="check-text">Incluye jugadas recientes (último año)</span>
+        </div>
+      </div>
+
+      <div class="info-box">
+        <p>Si todavía no tienes buenos highlights, no significa que no puedas avanzar — pero probablemente tu perfil <strong>necesite mejorar antes de ser enviado a agentes.</strong></p>
+      </div>
+    </div>
+
+    <!-- 4. ENGLISH TEST -->
+    <div class="section-card" id="section-english">
+      <div class="section-num">Step 03</div>
+      <div class="section-title">English Test Preparation</div>
+      <p class="section-text">
+        Muchas universidades pueden pedir un examen de inglés como TOEFL o Duolingo English Test. No necesitas hablar perfecto para empezar, pero sí debes prepararte y conocer el formato del examen.
+      </p>
+      <div class="form-grid">
+        <div class="form-group full">
+          <label class="form-label">Have you taken an English test before? <span>*</span></label>
+          <div class="radio-group" id="engTestTaken">
+            <label class="radio-option" onclick="selectRadio(this, 'engTestTaken')"><input type="radio" name="engTestTaken" value="yes"> <div class="radio-dot"></div> Yes</label>
+            <label class="radio-option" onclick="selectRadio(this, 'engTestTaken')"><input type="radio" name="engTestTaken" value="no"> <div class="radio-dot"></div> No</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Which test?</label>
+          <select class="form-select tracked" id="engTestType">
+            <option value="">Selecciona...</option>
+            <option>TOEFL</option>
+            <option>Duolingo English Test</option>
+            <option>IELTS</option>
+            <option>SAT / ACT</option>
+            <option>Other</option>
+            <option>N/A — No he tomado ninguno</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Current Score (if available)</label>
+          <input type="text" class="form-input tracked" id="engScore" placeholder="Ej: 75/160 TOEFL, 95 Duolingo">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Expected Test Date</label>
+          <input type="date" class="form-input tracked" id="engTestDate">
+        </div>
+        <div class="form-group">
+          <label class="form-label">English Level <span>*</span></label>
+          <select class="form-select tracked" id="engLevel">
+            <option value="">Selecciona...</option>
+            <option>Basic — Entiendo poco</option>
+            <option>Intermediate — Me defiendo</option>
+            <option>Advanced — Buena comunicación</option>
+          </select>
+        </div>
+      </div>
+
+      <span class="video-checklist-label">Practice Resources</span>
+      <div class="resource-grid">
+        <a href="https://englishtest.duolingo.com/practice" target="_blank" rel="noopener noreferrer" class="resource-card">
+          <div class="resource-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          </div>
+          <div>
+            <span class="resource-card-title">Duolingo English Test</span>
+            <span class="resource-card-sub">Práctica oficial gratuita</span>
+          </div>
+        </a>
+        <a href="#toefl-practice-link" target="_blank" rel="noopener noreferrer" class="resource-card">
+          <div class="resource-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          </div>
+          <div>
+            <span class="resource-card-title">TOEFL Practice</span>
+            <span class="resource-card-sub">Materiales de preparación</span>
+          </div>
+        </a>
+        <a href="#speaking-practice-link" target="_blank" rel="noopener noreferrer" class="resource-card">
+          <div class="resource-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8"/></svg>
+          </div>
+          <div>
+            <span class="resource-card-title">Speaking Practice</span>
+            <span class="resource-card-sub">Ejercicios de habla</span>
+          </div>
+        </a>
+        <a href="#writing-practice-link" target="_blank" rel="noopener noreferrer" class="resource-card">
+          <div class="resource-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </div>
+          <div>
+            <span class="resource-card-title">Writing Practice</span>
+            <span class="resource-card-sub">Mejora tu escritura</span>
+          </div>
+        </a>
+      </div>
+      <div class="info-box">
+        <p>El Duolingo English Test tiene práctica oficial en su página web. <strong>Recomendamos practicar antes de presentar el examen real</strong> para mejorar tu puntaje.</p>
+      </div>
+    </div>
+
+    <!-- 5. BUDGET -->
+    <div class="section-card" id="section-budget">
+      <div class="section-num">Step 04</div>
+      <div class="section-title">Budget &amp; Financial Readiness</div>
+      <p class="section-text">
+        Una beca puede cubrir una parte importante del costo, pero normalmente existen gastos que el estudiante debe considerar. Esta sección nos ayuda a entender qué tipo de oportunidades pueden ser <strong>realistas para tu caso</strong>.
+      </p>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Estimated Family Budget per Year <span>*</span></label>
+          <select class="form-select tracked" id="budget">
+            <option value="">Selecciona...</option>
+            <option>Menos de $5,000 USD</option>
+            <option>$5,000 – $10,000 USD</option>
+            <option>$10,000 – $20,000 USD</option>
+            <option>$20,000 – $35,000 USD</option>
+            <option>Más de $35,000 USD</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Maximum you could pay per year after scholarship</label>
+          <input type="text" class="form-input tracked" id="maxPay" placeholder="Ej: $5,000 USD / año">
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Can you cover flights?</label>
+          <div class="radio-group">
+            <label class="radio-option" onclick="selectRadio(this, 'flights')"><input type="radio" name="flights" value="yes"> <div class="radio-dot"></div> Yes</label>
+            <label class="radio-option" onclick="selectRadio(this, 'flights')"><input type="radio" name="flights" value="no"> <div class="radio-dot"></div> No</label>
+            <label class="radio-option" onclick="selectRadio(this, 'flights')"><input type="radio" name="flights" value="maybe"> <div class="radio-dot"></div> Maybe</label>
+          </div>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Can you cover visa process?</label>
+          <div class="radio-group">
+            <label class="radio-option" onclick="selectRadio(this, 'visa_cost')"><input type="radio" name="visa_cost" value="yes"> <div class="radio-dot"></div> Yes</label>
+            <label class="radio-option" onclick="selectRadio(this, 'visa_cost')"><input type="radio" name="visa_cost" value="no"> <div class="radio-dot"></div> No</label>
+            <label class="radio-option" onclick="selectRadio(this, 'visa_cost')"><input type="radio" name="visa_cost" value="maybe"> <div class="radio-dot"></div> Maybe</label>
+          </div>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Can you cover English test fees?</label>
+          <div class="radio-group">
+            <label class="radio-option" onclick="selectRadio(this, 'eng_fees')"><input type="radio" name="eng_fees" value="yes"> <div class="radio-dot"></div> Yes</label>
+            <label class="radio-option" onclick="selectRadio(this, 'eng_fees')"><input type="radio" name="eng_fees" value="no"> <div class="radio-dot"></div> No</label>
+            <label class="radio-option" onclick="selectRadio(this, 'eng_fees')"><input type="radio" name="eng_fees" value="maybe"> <div class="radio-dot"></div> Maybe</label>
+          </div>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Are you looking only for a full scholarship?</label>
+          <div class="radio-group">
+            <label class="radio-option" onclick="selectRadio(this, 'fullSchol')"><input type="radio" name="fullSchol" value="yes"> <div class="radio-dot"></div> Yes — Solo full scholarship</label>
+            <label class="radio-option" onclick="selectRadio(this, 'fullSchol')"><input type="radio" name="fullSchol" value="no"> <div class="radio-dot"></div> No — Estoy abierto a parciales</label>
+          </div>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Notes about your financial situation</label>
+          <textarea class="form-textarea tracked" id="budgetNotes" placeholder="Cualquier contexto adicional sobre tu situación financiera que sea relevante..."></textarea>
+        </div>
+      </div>
+      <div class="disclaimer-box">
+        <p><strong>Ser honesto con el presupuesto es clave.</strong> No todos los perfiles aplican para beca completa, y muchas oportunidades dependen de la combinación entre nivel, universidad, presupuesto y timing.</p>
+      </div>
+    </div>
+
+    <!-- 6. VISA -->
+    <div class="section-card" id="section-visa">
+      <div class="section-num">Step 05</div>
+      <div class="section-title">Visa Information</div>
+      <p class="section-text">
+        La visa normalmente se trabaja cuando ya existe una oferta o admisión real de una universidad. Tener una universidad respaldando tu proceso hace que el camino sea más claro, pero la <strong>aprobación final siempre depende de la embajada</strong> y de que tus documentos estén en orden.
+      </p>
+      <div class="form-grid">
+        <div class="form-group full">
+          <label class="form-label">Do you have a valid passport? <span>*</span></label>
+          <div class="radio-group">
+            <label class="radio-option" onclick="selectRadio(this, 'passport')"><input type="radio" name="passport" value="yes"> <div class="radio-dot"></div> Yes — Vigente</label>
+            <label class="radio-option" onclick="selectRadio(this, 'passport')"><input type="radio" name="passport" value="no"> <div class="radio-dot"></div> No — No tengo</label>
+            <label class="radio-option" onclick="selectRadio(this, 'passport')"><input type="radio" name="passport" value="process"> <div class="radio-dot"></div> In Process — Lo estoy tramitando</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Passport Expiration Date</label>
+          <input type="date" class="form-input tracked" id="passportExp">
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Have you had a U.S. visa before?</label>
+          <div class="radio-group">
+            <label class="radio-option" onclick="selectRadio(this, 'priorVisa')"><input type="radio" name="priorVisa" value="yes"> <div class="radio-dot"></div> Yes</label>
+            <label class="radio-option" onclick="selectRadio(this, 'priorVisa')"><input type="radio" name="priorVisa" value="no"> <div class="radio-dot"></div> No</label>
+          </div>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Have you ever been denied a U.S. visa?</label>
+          <div class="radio-group">
+            <label class="radio-option" onclick="selectRadio(this, 'visaDenied')"><input type="radio" name="visaDenied" value="yes"> <div class="radio-dot"></div> Yes</label>
+            <label class="radio-option" onclick="selectRadio(this, 'visaDenied')"><input type="radio" name="visaDenied" value="no"> <div class="radio-dot"></div> No</label>
+          </div>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Notes</label>
+          <textarea class="form-textarea tracked" id="visaNotes" placeholder="Cualquier detalle adicional sobre tu situación de visa..."></textarea>
+        </div>
+      </div>
+      <div class="disclaimer-box">
+        <p><strong>No garantizamos aprobación de visa.</strong> El proceso depende de documentación, entrevista, embajada y situación individual.</p>
+      </div>
+    </div>
+
+    <!-- 7. ACADEMIC -->
+    <div class="section-card" id="section-academic">
+      <div class="section-num">Step 06</div>
+      <div class="section-title">Academic Information</div>
+      <p class="section-text">El rendimiento académico es parte del proceso de admisión en la mayoría de universidades. Completa esta sección con honestidad.</p>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Current School <span>*</span></label>
+          <input type="text" class="form-input tracked" id="acadSchool" placeholder="Nombre de tu colegio/universidad">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Current Grade / Year</label>
+          <input type="text" class="form-input tracked" id="acadGrade" placeholder="Ej: 11°, Junior, Graduado">
+        </div>
+        <div class="form-group">
+          <label class="form-label">GPA or Academic Average</label>
+          <input type="text" class="form-input tracked" id="acadGpa" placeholder="Ej: 3.5, 85/100, 8.5/10">
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Transcript Available?</label>
+          <div class="radio-group">
+            <label class="radio-option" onclick="selectRadio(this, 'transcript')"><input type="radio" name="transcript" value="yes"> <div class="radio-dot"></div> Yes — Tengo las notas oficiales</label>
+            <label class="radio-option" onclick="selectRadio(this, 'transcript')"><input type="radio" name="transcript" value="no"> <div class="radio-dot"></div> No — Todavía no</label>
+          </div>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Have you graduated?</label>
+          <div class="radio-group">
+            <label class="radio-option" onclick="selectRadio(this, 'graduated')"><input type="radio" name="graduated" value="yes"> <div class="radio-dot"></div> Yes</label>
+            <label class="radio-option" onclick="selectRadio(this, 'graduated')"><input type="radio" name="graduated" value="no"> <div class="radio-dot"></div> No — Aún estoy estudiando</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Intended Major in College</label>
+          <input type="text" class="form-input tracked" id="major" placeholder="Ej: Business, Sports Science, Engineering">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Academic Strengths</label>
+          <input type="text" class="form-input tracked" id="acadStrengths" placeholder="Ej: Matemáticas, Ciencias, Idiomas">
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Academic Concerns (opcional)</label>
+          <textarea class="form-textarea tracked" id="acadConcerns" placeholder="¿Hay algo académico que crees que podría afectar tu proceso? Sé honesto — nos ayuda a orientarte mejor."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. ATHLETIC PROFILE -->
+    <div class="section-card" id="section-athletic">
+      <div class="section-num">Step 07</div>
+      <div class="section-title">Athletic / Player Profile</div>
+      <p class="section-text">Esta es la parte deportiva de tu perfil. Entre más detallado seas, mejor podemos evaluar tu nivel real.</p>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Sport <span>*</span></label>
+          <input type="text" class="form-input tracked" id="athSport" placeholder="Ej: Soccer, Basketball">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Position <span>*</span></label>
+          <input type="text" class="form-input tracked" id="athPosition" placeholder="Tu posición principal">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Current Club / Team</label>
+          <input type="text" class="form-input tracked" id="athClub" placeholder="Nombre de tu club o equipo">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Years Playing</label>
+          <select class="form-select tracked" id="athYears">
+            <option value="">Selecciona...</option>
+            <option>1-2 años</option><option>3-4 años</option>
+            <option>5-6 años</option><option>7-10 años</option><option>+10 años</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Best Achievements <span>*</span></label>
+          <textarea class="form-textarea tracked" id="athAchievements" placeholder="Ej: Campeón regional 2023, selección nacional sub-17, mejor jugador del torneo..."></textarea>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Stats (if available)</label>
+          <textarea class="form-textarea tracked" id="athStats" placeholder="Ej: 15 goles en 20 partidos, 12 puntos por partido, tiempos en atletismo..."></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Coach Reference — Name</label>
+          <input type="text" class="form-input tracked" id="coachName" placeholder="Nombre de tu entrenador">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Coach WhatsApp / Email</label>
+          <input type="text" class="form-input tracked" id="coachContact" placeholder="+57... o correo@email.com">
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Injury History</label>
+          <textarea class="form-textarea tracked" id="injuries" placeholder="¿Has tenido lesiones importantes? Describe brevemente. Si no, escribe 'Sin lesiones relevantes'."></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Training Frequency</label>
+          <select class="form-select tracked" id="training">
+            <option value="">Selecciona...</option>
+            <option>1-2 veces por semana</option>
+            <option>3-4 veces por semana</option>
+            <option>5-6 veces por semana</option>
+            <option>Todos los días</option>
+            <option>Doble turno diario</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Why should a university consider you? <span>*</span></label>
+          <textarea class="form-textarea tracked" id="whyYou" placeholder="Esta es tu oportunidad de destacarte. Habla de tu carácter, tu mentalidad, tu disciplina y lo que puedes aportar a un equipo universitario en USA."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9. DOCUMENT CHECKLIST -->
+    <div class="section-card" id="section-docs">
+      <div class="section-num">Step 08</div>
+      <div class="section-title">Document Checklist</div>
+      <p class="section-text">Indica el estado actual de cada documento. Puedes tener documentos pendientes y aun así enviar tu perfil — esto nos ayuda a saber en qué punto estás.</p>
+      <div class="doc-list">
+        <div class="doc-item"><span class="doc-name">Passport / Pasaporte</span><select class="doc-status-select" onchange="docStatusChange(this)"><option value="">Estado...</option><option value="uploaded">Uploaded</option><option value="pending">Pending</option><option value="na">Not available yet</option></select></div>
+        <div class="doc-item"><span class="doc-name">Transcript / Notas académicas</span><select class="doc-status-select" onchange="docStatusChange(this)"><option value="">Estado...</option><option value="uploaded">Uploaded</option><option value="pending">Pending</option><option value="na">Not available yet</option></select></div>
+        <div class="doc-item"><span class="doc-name">Highlight Video</span><select class="doc-status-select" onchange="docStatusChange(this)"><option value="">Estado...</option><option value="uploaded">Uploaded</option><option value="pending">Pending</option><option value="na">Not available yet</option></select></div>
+        <div class="doc-item"><span class="doc-name">Full Game Video</span><select class="doc-status-select" onchange="docStatusChange(this)"><option value="">Estado...</option><option value="uploaded">Uploaded</option><option value="pending">Pending</option><option value="na">Not available yet</option></select></div>
+        <div class="doc-item"><span class="doc-name">English Test Score</span><select class="doc-status-select" onchange="docStatusChange(this)"><option value="">Estado...</option><option value="uploaded">Uploaded</option><option value="pending">Pending</option><option value="na">Not available yet</option></select></div>
+        <div class="doc-item"><span class="doc-name">Athletic Resume / Hoja deportiva</span><select class="doc-status-select" onchange="docStatusChange(this)"><option value="">Estado...</option><option value="uploaded">Uploaded</option><option value="pending">Pending</option><option value="na">Not available yet</option></select></div>
+        <div class="doc-item"><span class="doc-name">Personal Photo</span><select class="doc-status-select" onchange="docStatusChange(this)"><option value="">Estado...</option><option value="uploaded">Uploaded</option><option value="pending">Pending</option><option value="na">Not available yet</option></select></div>
+        <div class="doc-item"><span class="doc-name">Coach Reference</span><select class="doc-status-select" onchange="docStatusChange(this)"><option value="">Estado...</option><option value="uploaded">Uploaded</option><option value="pending">Pending</option><option value="na">Not available yet</option></select></div>
+        <div class="doc-item"><span class="doc-name">Budget Information</span><select class="doc-status-select" onchange="docStatusChange(this)"><option value="">Estado...</option><option value="uploaded">Uploaded</option><option value="pending">Pending</option><option value="na">Not available yet</option></select></div>
+        <div class="doc-item"><span class="doc-name">Graduation Date / Diploma</span><select class="doc-status-select" onchange="docStatusChange(this)"><option value="">Estado...</option><option value="uploaded">Uploaded</option><option value="pending">Pending</option><option value="na">Not available yet</option></select></div>
+      </div>
+    </div>
+
+    <!-- 10. FINAL REVIEW -->
+    <div class="section-card" id="section-final">
+      <div class="section-num">Final Step</div>
+      <div class="section-title">Before You Submit</div>
+      <p class="section-text">Antes de enviar tu perfil, confirma que toda la información es real y está actualizada. Los perfiles incompletos o con información falsa pueden ser rechazados.</p>
+
+      <div class="disclaimer-box" style="margin-bottom: 24px; margin-top: 0;">
+        <p><strong>Disclaimer:</strong> Crear tu perfil no garantiza una beca, oferta universitaria ni contacto inmediato con agentes. El perfil será evaluado según tu nivel deportivo/académico, highlights, presupuesto, documentación, inglés y oportunidades disponibles en ese momento.</p>
+      </div>
+
+      <div class="final-checks" id="finalChecks">
+        <div class="final-check-item" onclick="toggleFinalCheck(this)">
+          <div class="check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
+          <span class="check-text">I understand this does not guarantee a scholarship.</span>
+        </div>
+        <div class="final-check-item" onclick="toggleFinalCheck(this)">
+          <div class="check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
+          <span class="check-text">I understand this does not guarantee immediate contact with an agent.</span>
+        </div>
+        <div class="final-check-item" onclick="toggleFinalCheck(this)">
+          <div class="check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
+          <span class="check-text">I confirm all my information is real and accurate.</span>
+        </div>
+        <div class="final-check-item" onclick="toggleFinalCheck(this)">
+          <div class="check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
+          <span class="check-text">I understand my profile may be classified as Ready to Move, Needs Improvement, or Not Eligible Yet.</span>
+        </div>
+        <div class="final-check-item" onclick="toggleFinalCheck(this)">
+          <div class="check-box"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
+          <span class="check-text">I understand I may receive feedback on what I need to improve before moving forward.</span>
+        </div>
+      </div>
+
+      <button class="btn-submit" id="submitBtn" disabled onclick="handleSubmit()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg>
+        Submit My Profile for Review
+      </button>
+      <p class="submit-hint" id="submitHint">Acepta todos los puntos anteriores para habilitar el envío.</p>
+    </div>
+
+  </div><!-- /mainForm -->
+
+  <!-- THANK YOU -->
+  <div class="thank-you" id="thankYou">
+    <div class="ty-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7"/></svg>
+    </div>
+    <div class="ty-title">Your Profile Has Been<br><span>Submitted for Review.</span></div>
+    <p class="ty-sub">
+      Gracias por completar tu perfil. <strong>Nuestro equipo revisará tu información</strong> y determinará si tu perfil está listo para ser considerado, si necesita mejoras, o si todavía no cumple con los requisitos mínimos.
+      <br><br>
+      Te contactaremos a través del correo y WhatsApp que registraste.
+    </p>
+    <div class="ty-disclaimer">
+      Recuerda: este proceso no garantiza beca ni oferta universitaria, pero te ayuda a entender dónde estás parado y qué pasos concretos debes seguir para acercarte a tu objetivo.
+    </div>
+  </div>
+
+</div><!-- /page-wrap -->
+
+<script>
+// ── TRACKED FIELDS FOR PROGRESS BAR ──
+const REQUIRED_FIELDS = [
+  'fullName','email','whatsapp','country','age','gradYear',
+  'sport','position','highlightLink','engLevel','budget',
+  'acadSchool','athSport','athPosition','athAchievements','whyYou'
+];
+const TOTAL_FIELDS = REQUIRED_FIELDS.length;
+
+function updateProgress() {
+  let filled = 0;
+  REQUIRED_FIELDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && el.value && el.value.trim() !== '') filled++;
+  });
+  const pct = Math.round((filled / TOTAL_FIELDS) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '%';
+  saveToStorage();
+}
+
+// ── INPUT TRACKING ──
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.form-input, .form-select, .form-textarea').forEach(el => {
+    el.addEventListener('input', () => {
+      el.classList.toggle('filled', el.value.trim() !== '');
+      updateProgress();
+    });
+    el.addEventListener('change', () => {
+      el.classList.toggle('filled', el.value.trim() !== '');
+      updateProgress();
+    });
+  });
+  loadFromStorage();
+  updateProgress();
+});
+
+// ── RADIO BUTTONS ──
+function selectRadio(el, groupName) {
+  document.querySelectorAll(`[name="${groupName}"]`).forEach(r => {
+    r.closest('.radio-option').classList.remove('selected');
+  });
+  el.classList.add('selected');
+  updateProgress();
+}
+
+// ── CHECKBOXES ──
+function toggleCheck(el) {
+  el.classList.toggle('checked');
+  updateProgress();
+}
+
+// ── FINAL CHECKS ──
+function toggleFinalCheck(el) {
+  el.classList.toggle('checked');
+  const allChecked = document.querySelectorAll('#finalChecks .final-check-item').length ===
+                     document.querySelectorAll('#finalChecks .final-check-item.checked').length;
+  const btn = document.getElementById('submitBtn');
+  const hint = document.getElementById('submitHint');
+  btn.disabled = !allChecked;
+  hint.style.display = allChecked ? 'none' : 'block';
+}
+
+// ── DOC STATUS COLORS ──
+function docStatusChange(el) {
+  el.className = 'doc-status-select';
+  if (el.value === 'uploaded') el.classList.add('uploaded');
+  else if (el.value === 'pending') el.classList.add('pending');
+  updateProgress();
+}
+
+// ── SUBMIT ──
+function handleSubmit() {
+  const required = {
+    'fullName': 'Full Name',
+    'email': 'Email',
+    'whatsapp': 'WhatsApp Number',
+    'country': 'Country',
+    'age': 'Age',
+    'gradYear': 'Graduation Year',
+    'sport': 'Sport',
+    'position': 'Position',
+    'highlightLink': 'Highlight Video Link',
+    'engLevel': 'English Level',
+    'budget': 'Budget',
+    'acadSchool': 'Current School',
+    'athSport': 'Sport (Athletic)',
+    'athPosition': 'Position (Athletic)',
+    'athAchievements': 'Best Achievements',
+    'whyYou': 'Why should a university consider you'
+  };
+  const missing = [];
+  for (const [id, label] of Object.entries(required)) {
+    const el = document.getElementById(id);
+    if (!el || !el.value.trim()) missing.push(label);
+  }
+  if (missing.length > 0) {
+    alert('Faltan estos campos obligatorios:\n\n• ' + missing.join('\n• '));
+    const firstMissing = Object.keys(required).find(id => {
+      const el = document.getElementById(id);
+      return !el || !el.value.trim();
+    });
+    if (firstMissing) document.getElementById(firstMissing).focus();
+    return;
+  }
+  localStorage.removeItem('slp_profile');
+  document.getElementById('mainForm').style.display = 'none';
+  document.getElementById('thankYou').style.display = 'block';
+  document.getElementById('progressFill').style.width = '100%';
+  document.getElementById('progressPct').textContent = '100%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── LOCALSTORAGE ──
+function saveToStorage() {
+  const data = {};
+  document.querySelectorAll('.form-input, .form-select, .form-textarea').forEach(el => {
+    if (el.id) data[el.id] = el.value;
+  });
+  try { localStorage.setItem('slp_profile', JSON.stringify(data)); } catch(e) {}
+}
+
+function loadFromStorage() {
+  try {
+    const saved = localStorage.getItem('slp_profile');
+    if (!saved) return;
+    const data = JSON.parse(saved);
+    Object.entries(data).forEach(([id, val]) => {
+      const el = document.getElementById(id);
+      if (el && val) {
+        el.value = val;
+        el.classList.toggle('filled', val.trim() !== '');
+      }
+    });
+  } catch(e) {}
+}
+</script>
+</body>
+</html>
