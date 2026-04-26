@@ -1420,6 +1420,53 @@ footer {
 .intro-modal-footer-text {
   font-size: 13px; color: var(--muted);
 }
+
+/* ── PRICING GRID ── */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  max-width: 900px;
+  margin: 56px auto 0;
+}
+@media (max-width: 768px) { .pricing-grid { grid-template-columns: 1fr; } }
+.pricing-card-v2 {
+  background: var(--dark-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.3s, border-color 0.3s;
+}
+.pricing-card-v2:hover { transform: translateY(-6px); border-color: var(--border2); }
+.pricing-card-v2.featured {
+  border-color: rgba(245,158,11,0.4);
+  background: linear-gradient(160deg, rgba(245,158,11,0.07) 0%, var(--dark-card) 50%);
+}
+.pricing-card-v2.featured:hover { border-color: rgba(245,158,11,0.6); }
+.pricing-card-v2::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--blue), var(--accent));
+}
+.pricing-card-v2.featured::before {
+  background: linear-gradient(90deg, var(--gold), var(--gold2));
+}
+.pricing-card-v2 .pricing-header {
+  padding: 32px 36px 24px;
+  border-bottom: 1px solid var(--border);
+}
+.pricing-card-v2 .pricing-body { padding: 28px 36px 36px; }
+.pricing-popular-badge {
+  display: inline-block;
+  background: rgba(245,158,11,0.15);
+  border: 1px solid rgba(245,158,11,0.35);
+  color: var(--gold);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  padding: 3px 12px; border-radius: 100px;
+  margin-bottom: 12px;
+}
 </style>
 </head>
 <body>
@@ -2016,50 +2063,100 @@ footer {
   <div class="section" style="text-align:center; padding-bottom:0;">
     <div class="section-label reveal" style="justify-content:center;">Accede hoy</div>
     <h2 class="section-title reveal">Un pago. <span class="accent">Acceso de por vida.</span></h2>
-    <p class="reveal" style="font-size:16px; color:var(--muted); max-width:440px; margin:0 auto; line-height:1.7; font-weight:300;">
-      Sin mensualidades. Sin restricciones. El conocimiento y los contactos que necesitas para llegar a USA.
+    <p class="reveal" style="font-size:16px; color:var(--muted); max-width:480px; margin:0 auto; line-height:1.7; font-weight:300;">
+      Sin mensualidades. Sin restricciones. Elige el plan que se adapta a tu objetivo.
     </p>
   </div>
-  <div class="pricing-card reveal">
-    <div class="pricing-header">
-      <div class="pricing-launch-badge">Precio de lanzamiento</div>
-      <div class="pricing-name">Curso completo + acceso a contactos</div>
-      <div class="pricing-price">
-        <sup>$</sup>97<sub> USD</sub>
+
+  <div class="section" style="padding-top:0; padding-bottom:0;">
+    <div class="pricing-grid reveal">
+
+      <!-- PLAN 1: Acceso completo -->
+      <div class="pricing-card-v2">
+        <div class="pricing-header">
+          <div class="pricing-launch-badge">Precio de lanzamiento</div>
+          <div class="pricing-name">Acceso Completo</div>
+          <div class="pricing-price"><sup>$</sup>24.99<sub> USD</sub></div>
+          <p style="font-size:13px; color:var(--muted); margin-top:8px; font-weight:300;">Todo el programa. Los 4 módulos completos.</p>
+        </div>
+        <div class="pricing-body">
+          <ul class="pricing-features-list">
+            <li class="pricing-feature">
+              <div class="pricing-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
+              4 módulos · 20 capítulos de contenido real
+            </li>
+            <li class="pricing-feature">
+              <div class="pricing-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
+              Video de introducción gratuito incluido
+            </li>
+            <li class="pricing-feature">
+              <div class="pricing-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
+              Checklist del video de reclutamiento
+            </li>
+            <li class="pricing-feature">
+              <div class="pricing-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
+              Acceso de por vida + actualizaciones
+            </li>
+            <li class="pricing-feature" style="color:var(--muted); opacity:0.4;">
+              <div class="pricing-check" style="border-color:rgba(255,255,255,0.1);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></div>
+              Acceso a managers y agencias
+            </li>
+            <li class="pricing-feature" style="color:var(--muted); opacity:0.4;">
+              <div class="pricing-check" style="border-color:rgba(255,255,255,0.1);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></div>
+              Completar tu perfil con Sports Lab Pro
+            </li>
+          </ul>
+          <a href="https://hotmart.com" target="_blank" class="btn-pricing">Comprar ahora — $24.99 USD</a>
+          <div class="pricing-secure">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            Pago seguro · Tarjeta · PayPal · Transferencia
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="pricing-body">
-      <ul class="pricing-features-list">
-        <li class="pricing-feature">
-          <div class="pricing-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
-          4 módulos con guías paso a paso
-        </li>
-        <li class="pricing-feature">
-          <div class="pricing-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
-          Plantilla de athlete profile lista para usar
-        </li>
-        <li class="pricing-feature">
-          <div class="pricing-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
-          Checklist completo del video de reclutamiento
-        </li>
-        <li class="pricing-feature">
-          <div class="pricing-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
-          Calculadora de costos universitarios en USA
-        </li>
-        <li class="pricing-feature">
-          <div class="pricing-check pricing-check-gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
-          <strong>Acceso directo a nuestra red de agencias reales</strong>
-        </li>
-        <li class="pricing-feature">
-          <div class="pricing-check pricing-check-gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
-          <strong>Acceso de por vida + actualizaciones incluidas</strong>
-        </li>
-      </ul>
-      <a href="https://hotmart.com" target="_blank" class="btn-pricing">Comprar ahora — $97 USD</a>
-      <div class="pricing-secure">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-        Pago seguro procesado por Hotmart · Tarjeta · PayPal · Transferencia
+
+      <!-- PLAN 2: Completa tu perfil -->
+      <div class="pricing-card-v2 featured">
+        <div class="pricing-header">
+          <div class="pricing-popular-badge">⭐ Más completo</div>
+          <div class="pricing-name">Completa Tu Perfil</div>
+          <div class="pricing-price"><sup>$</sup>49.99<sub> USD</sub></div>
+          <p style="font-size:13px; color:var(--muted); margin-top:8px; font-weight:300;">Todo lo anterior + acceso directo a managers y construcción de perfil.</p>
+        </div>
+        <div class="pricing-body">
+          <ul class="pricing-features-list">
+            <li class="pricing-feature">
+              <div class="pricing-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
+              Todo lo incluido en Acceso Completo
+            </li>
+            <li class="pricing-feature">
+              <div class="pricing-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
+              Acceso a nuestra red de managers reales
+            </li>
+            <li class="pricing-feature">
+              <div class="pricing-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
+              Agencias que trabajan con universidades USA
+            </li>
+            <li class="pricing-feature">
+              <div class="pricing-check pricing-check-gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
+              <strong>Construcción de tu perfil con requerimientos reales</strong>
+            </li>
+            <li class="pricing-feature">
+              <div class="pricing-check pricing-check-gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
+              <strong>Revisión personalizada de tu caso</strong>
+            </li>
+            <li class="pricing-feature">
+              <div class="pricing-check pricing-check-gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
+              <strong>Acceso de por vida + actualizaciones incluidas</strong>
+            </li>
+          </ul>
+          <a href="https://hotmart.com" target="_blank" class="btn-pricing" style="background:var(--gold); color:#000;">Comprar ahora — $49.99 USD</a>
+          <div class="pricing-secure">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            Pago seguro · Tarjeta · PayPal · Transferencia
+          </div>
+        </div>
       </div>
+
     </div>
   </div>
 </div>
