@@ -1339,6 +1339,87 @@ footer {
   margin-top: 56px;
 }
 @media (max-width: 768px) { .modules-grid-new { grid-template-columns: 1fr; } }
+
+/* ── INTRO MODAL ── */
+.intro-modal-overlay {
+  display: none;
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(6px);
+  align-items: center; justify-content: center;
+}
+.intro-modal-overlay.active { display: flex; }
+.intro-modal {
+  background: var(--dark-card);
+  border: 1px solid var(--border2);
+  border-radius: 20px;
+  width: 90%; max-width: 780px;
+  overflow: hidden;
+  position: relative;
+  animation: fadeUp 0.3s ease;
+}
+.intro-modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 28px;
+  border-bottom: 1px solid var(--border);
+}
+.intro-modal-tag {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--gold);
+  background: rgba(245,158,11,0.12);
+  border: 1px solid rgba(245,158,11,0.3);
+  padding: 3px 10px; border-radius: 100px;
+}
+.intro-modal-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 18px; font-weight: 700;
+  margin-top: 4px;
+}
+.intro-modal-close {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--muted);
+  transition: all 0.2s; flex-shrink: 0;
+}
+.intro-modal-close:hover { background: rgba(255,255,255,0.12); color: var(--text); }
+.intro-modal-video {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  background: #000;
+}
+.intro-modal-video iframe,
+.intro-modal-video .video-placeholder {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+}
+.video-placeholder {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 16px;
+  background: linear-gradient(135deg, #0a0e1a, #04112b);
+  color: var(--muted);
+}
+.video-placeholder-icon {
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  background: rgba(245,158,11,0.12);
+  border: 1px solid rgba(245,158,11,0.3);
+  display: flex; align-items: center; justify-content: center;
+}
+.video-placeholder-icon svg { width: 32px; height: 32px; color: var(--gold); }
+.video-placeholder p { font-size: 14px; color: var(--muted); }
+.intro-modal-footer {
+  padding: 16px 28px;
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.intro-modal-footer-text {
+  font-size: 13px; color: var(--muted);
+}
 </style>
 </head>
 <body>
@@ -1565,7 +1646,7 @@ footer {
         <div class="module-tag">Introducción</div>
         <div class="module-title">Mindset Shift — Transforma tu Mentalidad</div>
         <ul class="module-chapters">
-          <li class="chapter-item free">
+          <li class="chapter-item free" onclick="openIntroModal()" style="cursor:pointer;">
             <span class="chapter-icon" style="color:var(--gold);"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
             Bienvenida al programa
             <span class="chapter-free-badge">Gratis</span>
@@ -2182,6 +2263,50 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     }
   });
 });
+</script>
+
+<!-- INTRO MODAL -->
+<div class="intro-modal-overlay" id="introModal" onclick="closeIntroModalOnOverlay(event)">
+  <div class="intro-modal">
+    <div class="intro-modal-header">
+      <div>
+        <div class="intro-modal-tag">Gratis · Módulo 01</div>
+        <div class="intro-modal-title">Bienvenida al programa</div>
+      </div>
+      <button class="intro-modal-close" onclick="closeIntroModal()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="intro-modal-video">
+      <!-- TODO: Reemplaza el div de abajo por un iframe de YouTube/Vimeo cuando tengas el link -->
+      <!-- Ejemplo YouTube: <iframe src="https://www.youtube.com/embed/TU_VIDEO_ID" frameborder="0" allowfullscreen></iframe> -->
+      <div class="video-placeholder">
+        <div class="video-placeholder-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <p>Video disponible próximamente</p>
+      </div>
+    </div>
+    <div class="intro-modal-footer">
+      <span class="intro-modal-footer-text">Capítulo 1 de 5 · Módulo 01 — Mindset Shift</span>
+      <a href="#pricing" onclick="closeIntroModal()" class="btn-primary" style="font-size:13px; padding:10px 22px;">Acceder al programa completo</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openIntroModal() {
+    document.getElementById('introModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeIntroModal() {
+    document.getElementById('introModal').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  function closeIntroModalOnOverlay(e) {
+    if (e.target === document.getElementById('introModal')) closeIntroModal();
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeIntroModal(); });
 </script>
 </body>
 </html>
