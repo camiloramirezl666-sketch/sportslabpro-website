@@ -1639,19 +1639,24 @@ footer {
       <p class="reveal" style="font-size:15px; color:var(--muted); max-width:320px; line-height:1.6; font-weight:300; margin-bottom:4px;">20 capítulos de contenido real. Acceso de por vida desde cualquier dispositivo.</p>
     </div>
     <!-- INTRO CARD -->
-    <div class="module-card" onclick="openIntroModal()" style="cursor:pointer; margin-top:56px; border-color:rgba(245,158,11,0.25); background:linear-gradient(135deg, rgba(245,158,11,0.06), rgba(245,158,11,0.02)); display:flex; align-items:center; justify-content:space-between; gap:24px; padding:28px 36px;">
+    <div class="module-card" onclick="openIntroModal()" style="cursor:pointer; margin-top:56px; border-color:rgba(245,158,11,0.35); background:linear-gradient(135deg, rgba(245,158,11,0.08), rgba(245,158,11,0.02)); display:flex; align-items:center; justify-content:space-between; gap:24px; padding:28px 36px; position:relative; overflow:hidden;">
+      <!-- Pulso animado de fondo -->
+      <div style="position:absolute; inset:0; pointer-events:none; background:linear-gradient(90deg, transparent, rgba(245,158,11,0.04), transparent); animation: shimmer 2.5s infinite;"></div>
       <div style="display:flex; align-items:center; gap:24px;">
-        <div style="width:56px; height:56px; border-radius:50%; background:rgba(245,158,11,0.12); border:1px solid rgba(245,158,11,0.3); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-          <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24" style="color:var(--gold); margin-left:3px;"><path d="M8 5v14l11-7z"/></svg>
+        <div style="width:64px; height:64px; border-radius:50%; background:rgba(245,158,11,0.15); border:1.5px solid rgba(245,158,11,0.5); display:flex; align-items:center; justify-content:center; flex-shrink:0; box-shadow:0 0 20px rgba(245,158,11,0.2);">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28" style="color:var(--gold); margin-left:3px;"><path d="M8 5v14l11-7z"/></svg>
         </div>
         <div>
-          <div class="module-tag" style="color:var(--gold); background:rgba(245,158,11,0.12); border-color:rgba(245,158,11,0.25);">Gratis · Vista previa</div>
-          <div class="module-title" style="margin-top:6px; margin-bottom:0;">Introducción — Bienvenidos al programa</div>
+          <div class="module-tag" style="color:var(--gold); background:rgba(245,158,11,0.12); border-color:rgba(245,158,11,0.35);">🎬 Gratis · Disponible ahora</div>
+          <div class="module-title" style="margin-top:8px; margin-bottom:4px;">Introducción — Bienvenidos al programa</div>
+          <div style="font-size:13px; color:var(--muted);">Mira el primer video antes de decidir. Sin registro, sin tarjeta.</div>
         </div>
       </div>
-      <div style="flex-shrink:0; font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:600; letter-spacing:1px; color:var(--gold); white-space:nowrap; display:flex; align-items:center; gap:8px;">
-        Ver ahora
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      <div style="flex-shrink:0;">
+        <div style="background:var(--gold); color:#000; font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; padding:12px 24px; border-radius:8px; white-space:nowrap; display:flex; align-items:center; gap:8px;">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M8 5v14l11-7z"/></svg>
+          Ver video
+        </div>
       </div>
     </div>
 
