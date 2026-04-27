@@ -506,23 +506,23 @@
         headers: { 'Accept': 'application/json' },
         body: formData
       });
-
-      // 2. Enviar email de bienvenida via EmailJS
-      await emailjs.send('service_ftgqtfs', 'template_s7j3td6', {
-        name: name,
-        email: email,
-        phone: phone
-      });
-
-      // Mostrar éxito
-      document.getElementById('preventa-form').style.display = 'none';
-      document.querySelector('.spots-bar').style.display = 'none';
-      document.getElementById('success-msg').style.display = 'flex';
-
     } catch (err) {
       btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:18px;height:18px;"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> Quiero acceso anticipado';
       btn.disabled = false;
+      return;
     }
+
+    // 2. Enviar email de bienvenida via EmailJS (fallo silencioso)
+    emailjs.send('service_ftgqtfs', 'template_s7j3td6', {
+      name: name,
+      email: email,
+      phone: phone
+    }).catch(err => console.error('EmailJS error:', err));
+
+    // Mostrar éxito
+    document.getElementById('preventa-form').style.display = 'none';
+    document.querySelector('.spots-bar').style.display = 'none';
+    document.getElementById('success-msg').style.display = 'flex';
   }
 </script>
 
