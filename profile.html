@@ -1121,7 +1121,7 @@ function docStatusChange(el) {
 }
 
 // ── ENVIAR ──
-function handleSubmit() {
+async function handleSubmit() {
   const required = {
     'fullName': 'Nombre completo',
     'email': 'Correo electrónico',
@@ -1154,6 +1154,64 @@ function handleSubmit() {
     if (firstMissing) document.getElementById(firstMissing).focus();
     return;
   }
+  // Recoger radio buttons
+  const getRadio = name => { const el = document.querySelector(`[name="${name}"].selected input`); return el ? el.value : ''; };
+
+  const fields = {
+    "Name":                        document.getElementById('fullName')?.value || '',
+    "Correo":                      document.getElementById('email')?.value || '',
+    "WhatsApp":                    document.getElementById('whatsapp')?.value || '',
+    "País":                        document.getElementById('country')?.value || '',
+    "Ciudad":                      document.getElementById('city')?.value || '',
+    "Edad":                        parseInt(document.getElementById('age')?.value) || null,
+    "Fecha de nacimiento":         document.getElementById('dob')?.value || null,
+    "Colegio o club":              document.getElementById('school')?.value || '',
+    "Año de graduación":           document.getElementById('gradYear')?.value || '',
+    "Deporte":                     document.getElementById('sport')?.value || '',
+    "Posición":                    document.getElementById('position')?.value || '',
+    "Estatura":                    document.getElementById('height')?.value || '',
+    "Peso":                        document.getElementById('weight')?.value || '',
+    "Pie o mano dominante":        document.getElementById('dominant')?.value || '',
+    "Video highlights":            document.getElementById('highlightLink')?.value || '',
+    "Video partido completo":      document.getElementById('fullGameLink')?.value || '',
+    "Notas del video":             document.getElementById('videoNotes')?.value || '',
+    "Nivel de inglés":             document.getElementById('engLevel')?.value || '',
+    "Examen de inglés":            document.getElementById('engTestType')?.value || '',
+    "Puntaje inglés":              document.getElementById('engScore')?.value || '',
+    "Presupuesto anual":           document.getElementById('budget')?.value || '',
+    "Máximo a pagar":              document.getElementById('maxPay')?.value || '',
+    "Pasaporte":                   getRadio('passport'),
+    "Visa previa USA":             getRadio('priorVisa'),
+    "Visa negada":                 getRadio('visaDenied'),
+    "Logros deportivos":           document.getElementById('athAchievements')?.value || '',
+    "Estadísticas":                document.getElementById('athStats')?.value || '',
+    "Nombre entrenador":           document.getElementById('coachName')?.value || '',
+    "Contacto entrenador":         document.getElementById('coachContact')?.value || '',
+    "Lesiones":                    document.getElementById('injuries')?.value || '',
+    "Frecuencia entrenamiento":    document.getElementById('training')?.value || '',
+    "Por qué considerarte":        document.getElementById('whyYou')?.value || '',
+    "Colegio académico":           document.getElementById('acadSchool')?.value || '',
+    "Promedio académico":          document.getElementById('acadGpa')?.value || '',
+    "Carrera deseada":             document.getElementById('major')?.value || '',
+    "Fortalezas académicas":       document.getElementById('acadStrengths')?.value || '',
+    "Notas académicas disponibles":getRadio('transcript'),
+    "Estado del perfil":           "Pendiente revisión",
+    "Fecha de envío":              new Date().toISOString()
+  };
+
+  // Limpiar campos vacíos o null
+  Object.keys(fields).forEach(k => { if (fields[k] === '' || fields[k] === null) delete fields[k]; });
+
+  try {
+    await fetch('/api/submit-profile', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(fields)
+    });
+  } catch(e) {
+    console.error('Error al guardar perfil:', e);
+  }
+
   localStorage.removeItem('slp_profile');
   document.getElementById('mainForm').style.display = 'none';
   document.getElementById('thankYou').style.display = 'block';
