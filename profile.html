@@ -450,6 +450,25 @@ body {
 </head>
 <body>
 
+  <!-- PANTALLA DE ACCESO -->
+  <div id="accessGate" style="min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px;">
+    <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:40px 32px; max-width:420px; width:100%; text-align:center;">
+      <div style="font-size:2.2rem; margin-bottom:8px;">🏆</div>
+      <h2 style="font-family:'Bebas Neue',sans-serif; font-size:1.8rem; letter-spacing:0.05em; color:#fff; margin-bottom:8px;">Acceso al Perfil</h2>
+      <p style="color:rgba(232,230,225,0.6); font-size:0.9rem; margin-bottom:28px;">Ingresa el correo con el que realizaste tu pago para acceder a tu formulario de perfil.</p>
+      <input type="email" id="accessEmail" placeholder="tucorreo@ejemplo.com"
+        style="width:100%; padding:14px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.15); background:rgba(255,255,255,0.06); color:#fff; font-size:0.95rem; font-family:inherit; margin-bottom:12px; outline:none;"
+        onkeydown="if(event.key==='Enter') checkAccess()">
+      <button onclick="checkAccess()" id="accessBtn"
+        style="width:100%; padding:14px; border-radius:10px; border:none; background:#f59e0b; color:#04112b; font-family:'Bebas Neue',sans-serif; font-size:1.1rem; letter-spacing:0.08em; cursor:pointer;">
+        VERIFICAR ACCESO
+      </button>
+      <p id="accessError" style="color:#ef4444; font-size:0.85rem; margin-top:14px; display:none;">
+        No encontramos tu correo. Si ya pagaste, escríbenos por WhatsApp o Instagram.
+      </p>
+    </div>
+  </div>
+
 <!-- BARRA DE PROGRESO -->
 <div class="progress-bar-wrap">
   <div class="progress-inner">
@@ -490,7 +509,7 @@ body {
   </div>
 
   <!-- FORMULARIO PRINCIPAL -->
-  <div id="mainForm">
+  <div id="mainForm" style="display:none;">
 
     <!-- PASO 0: CÓMO FUNCIONA -->
     <div class="section-card">
@@ -1218,6 +1237,40 @@ async function handleSubmit() {
   document.getElementById('progressFill').style.width = '100%';
   document.getElementById('progressPct').textContent = '100%';
   window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── VERIFICACIÓN DE ACCESO ──
+async function checkAccess() {
+  const email = document.getElementById('accessEmail').value.trim();
+  if (!email) return;
+  const btn = document.getElementById('accessBtn');
+  const errEl = document.getElementById('accessError');
+  btn.textContent = 'VERIFICANDO...';
+  btn.disabled = true;
+  errEl.style.display = 'none';
+  try {
+    const res = await fetch('/api/verify-access', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    const data = await res.json();
+    if (data.authorized) {
+      document.getElementById('accessGate').style.display = 'none';
+      document.getElementById('mainForm').style.display = 'block';
+      loadFromStorage();
+      updateProgress();
+    } else {
+      errEl.style.display = 'block';
+      btn.textContent = 'VERIFICAR ACCESO';
+      btn.disabled = false;
+    }
+  } catch (e) {
+    errEl.textContent = 'Error de conexión. Intenta de nuevo.';
+    errEl.style.display = 'block';
+    btn.textContent = 'VERIFICAR ACCESO';
+    btn.disabled = false;
+  }
 }
 
 // ── LOCALSTORAGE ──
