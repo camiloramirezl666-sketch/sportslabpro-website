@@ -1471,6 +1471,37 @@ footer {
 </head>
 <body>
 
+<!-- ACCESO TEMPORAL -->
+<div id="pwGate" style="position:fixed;inset:0;z-index:99999;background:#060f24;display:flex;align-items:center;justify-content:center;padding:24px;">
+  <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:40px 32px;max-width:380px;width:100%;text-align:center;">
+    <div style="font-size:2rem;margin-bottom:12px;">🔒</div>
+    <h2 style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:0.05em;color:#fff;margin-bottom:8px;">Acceso Privado</h2>
+    <p style="color:rgba(232,230,225,0.55);font-size:0.88rem;margin-bottom:24px;">Esta página está en construcción.</p>
+    <input type="password" id="pwInput" placeholder="Contraseña" onkeydown="if(event.key==='Enter')checkPw()"
+      style="width:100%;padding:13px 16px;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:#fff;font-size:0.95rem;font-family:inherit;margin-bottom:10px;outline:none;">
+    <button onclick="checkPw()"
+      style="width:100%;padding:13px;border-radius:10px;border:none;background:#f59e0b;color:#04112b;font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.08em;cursor:pointer;">
+      ENTRAR
+    </button>
+    <p id="pwErr" style="color:#ef4444;font-size:0.82rem;margin-top:12px;display:none;">Contraseña incorrecta.</p>
+  </div>
+</div>
+<script>
+  (function(){
+    if(sessionStorage.getItem('slp_access')==='ok'){
+      document.getElementById('pwGate').style.display='none';
+    }
+  })();
+  function checkPw(){
+    if(document.getElementById('pwInput').value==='332111'){
+      sessionStorage.setItem('slp_access','ok');
+      document.getElementById('pwGate').style.display='none';
+    } else {
+      document.getElementById('pwErr').style.display='block';
+    }
+  }
+</script>
+
 <!-- Progress bar -->
 <div class="progress-bar" id="progressBar"></div>
 
