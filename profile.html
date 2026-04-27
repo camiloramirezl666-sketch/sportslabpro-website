@@ -1203,13 +1203,21 @@ async function handleSubmit() {
   Object.keys(fields).forEach(k => { if (fields[k] === '' || fields[k] === null) delete fields[k]; });
 
   try {
-    await fetch('/api/submit-profile', {
+    const response = await fetch('/api/submit-profile', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(fields)
     });
+    if (!response.ok) {
+      const errData = await response.json().catch(() => ({}));
+      console.error('Airtable error:', response.status, errData);
+      alert('Error al enviar el perfil (' + response.status + '): ' + JSON.stringify(errData));
+      return;
+    }
   } catch(e) {
     console.error('Error al guardar perfil:', e);
+    alert('Error de red al enviar el perfil: ' + e.message);
+    return;
   }
 
   localStorage.removeItem('slp_profile');
