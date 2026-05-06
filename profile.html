@@ -577,11 +577,7 @@ body {
         </div>
         <div class="form-group">
           <label class="form-label">Año de graduación <span>*</span></label>
-          <select class="form-select tracked" id="gradYear">
-            <option value="">Selecciona...</option>
-            <option>2025</option><option>2026</option><option>2027</option>
-            <option>2028</option><option>Ya me gradué</option>
-          </select>
+          <input type="text" class="form-input tracked" id="gradYear" placeholder="Ej: 2026, Diciembre 2027, Ya me gradué">
         </div>
         <div class="form-group">
           <label class="form-label">Deporte <span>*</span></label>
@@ -712,8 +708,8 @@ body {
           <input type="text" class="form-input tracked" id="engScore" placeholder="Ej: 75 TOEFL, 95 Duolingo">
         </div>
         <div class="form-group">
-          <label class="form-label">Fecha estimada para presentar</label>
-          <input type="date" class="form-input tracked" id="engTestDate">
+          <label class="form-label">Fecha estimada o presentada del examen</label>
+          <input type="text" class="form-input tracked" id="engTestDate" placeholder="Ej: Marzo 2026, Ya lo presenté">
         </div>
         <div class="form-group">
           <label class="form-label">Nivel de inglés actual <span>*</span></label>
@@ -1189,6 +1185,7 @@ async function handleSubmit() {
     "Nivel de inglés":             document.getElementById('engLevel')?.value || '',
     "Examen de inglés":            document.getElementById('engTestType')?.value || '',
     "Puntaje inglés":              document.getElementById('engScore')?.value || '',
+    "Fecha examen inglés":         document.getElementById('engTestDate')?.value || '',
     "Presupuesto anual":           document.getElementById('budget')?.value || '',
     "Máximo a pagar":              document.getElementById('maxPay')?.value || '',
     "Pasaporte":                   getRadio('passport'),
@@ -1259,6 +1256,7 @@ async function checkAccess() {
       document.getElementById('accessGate').style.display = 'none';
       document.getElementById('mainForm').style.display = 'block';
       loadFromStorage();
+      await loadFromAirtable(email);
       updateProgress();
     } else {
       errEl.style.display = 'block';
@@ -1280,6 +1278,47 @@ function saveToStorage() {
     if (el.id) data[el.id] = el.value;
   });
   try { localStorage.setItem('slp_profile', JSON.stringify(data)); } catch(e) {}
+}
+
+// Mapa de campos Airtable → IDs del formulario
+const AIRTABLE_TO_FORM = {
+  'Name': 'fullName', 'Correo': 'email', 'WhatsApp': 'whatsapp',
+  'País': 'country', 'Ciudad': 'city', 'Edad': 'age',
+  'Fecha de nacimiento': 'dob', 'Colegio o club': 'school',
+  'Año de graduación': 'gradYear', 'Deporte': 'sport', 'Posición': 'position',
+  'Estatura': 'height', 'Peso': 'weight',
+  'Video highlights': 'highlightLink', 'Video partido completo': 'fullGameLink',
+  'Notas del video': 'videoNotes', 'Nivel de inglés': 'engLevel',
+  'Examen de inglés': 'engTestType', 'Puntaje inglés': 'engScore',
+  'Fecha examen inglés': 'engTestDate',
+  'Presupuesto anual': 'budget', 'Máximo a pagar': 'maxPay',
+  'Logros deportivos': 'athAchievements', 'Estadísticas': 'athStats',
+  'Nombre entrenador': 'coachName', 'Contacto entrenador': 'coachContact',
+  'Lesiones': 'injuries', 'Frecuencia entrenamiento': 'training',
+  'Por qué considerarte': 'whyYou', 'Colegio académico': 'acadSchool',
+  'Promedio académico': 'acadGpa', 'Carrera deseada': 'major',
+  'Fortalezas académicas': 'acadStrengths'
+};
+
+async function loadFromAirtable(email) {
+  try {
+    const res = await fetch('/api/get-profile', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    const data = await res.json();
+    if (!data.found || !data.fields) return;
+    Object.entries(AIRTABLE_TO_FORM).forEach(([airtableKey, formId]) => {
+      const val = data.fields[airtableKey];
+      if (!val) return;
+      const el = document.getElementById(formId);
+      if (el) {
+        el.value = val;
+        el.classList.add('filled');
+      }
+    });
+  } catch(e) {}
 }
 
 function loadFromStorage() {
