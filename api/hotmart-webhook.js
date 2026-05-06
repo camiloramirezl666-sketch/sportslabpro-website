@@ -25,8 +25,7 @@ module.exports = async function handler(req, res) {
 
     // Solo agregar a Compradores si compraron el plan completo ($39.99)
     // Offer code: jucrwn4q
-    // Si no tiene offer code (compra base $14.99), no agregamos
-    if (offerCode && offerCode !== 'jucrwn4q') {
+    if (offerCode !== 'jucrwn4q') {
       return res.status(200).json({ ok: true, skipped: 'not profile offer' });
     }
 
