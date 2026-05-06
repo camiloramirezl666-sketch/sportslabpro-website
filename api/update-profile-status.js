@@ -18,7 +18,7 @@ module.exports = async function handler(req, res) {
       {
         method: 'PATCH',
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ fields })
+        body: JSON.stringify({ fields, typecast: true })
       }
     );
     return { ok: response.ok, data: await response.json() };
