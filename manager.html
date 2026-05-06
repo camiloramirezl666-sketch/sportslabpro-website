@@ -358,8 +358,9 @@ function renderProfiles(records) {
     return;
   }
 
-  container.innerHTML = records.map((r, i) => {
+  container.innerHTML = records.map((r) => {
     const f = r.fields;
+    const recordId = r.id;
     const name = f['Name'] || 'Sin nombre';
     const sport = [f['Deporte'], f['Posición']].filter(Boolean).join(' · ');
     const status = f['Estado del perfil'] || 'Pendiente revisión';
@@ -367,7 +368,7 @@ function renderProfiles(records) {
     const highlights = f['Video highlights'];
 
     return `
-    <div class="profile-card" onclick="openModal(${i})">
+    <div class="profile-card" onclick="openModal('${recordId}')">
       <div class="card-header">
         <div class="card-avatar">${getInitials(name)}</div>
         <div>
@@ -422,12 +423,14 @@ function renderProfiles(records) {
 let currentRecordId = null;
 let currentModalIndex = null;
 
-function openModal(index) {
-  const record = allRecords[index];
+function openModal(recordId) {
+  const idx = allRecords.findIndex(r => r.id === recordId);
+  if (idx === -1) return;
+  const record = allRecords[idx];
   const f = record.fields;
   const name = f['Name'] || 'Sin nombre';
   currentRecordId = record.id;
-  currentModalIndex = index;
+  currentModalIndex = idx;
 
   const section = (title, fields) => {
     const rows = fields.filter(([,v]) => v).map(([label, v, full]) => `
