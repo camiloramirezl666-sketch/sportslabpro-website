@@ -12,26 +12,36 @@ module.exports = async function handler(req, res) {
   const token = process.env.AIRTABLE_TOKEN;
   if (!token) return res.status(500).json({ error: 'Token no configurado' });
 
-  const fields = {};
-  if (status) fields['Estado del perfil'] = status;
-  if (reviewedBy !== undefined) fields['Revisado por'] = reviewedBy;
-  if (notes !== undefined) fields['Notas del manager'] = notes;
-  fields['Última actualización'] = new Date().toISOString();
-
-  try {
+  const patchAirtable = async (fields) => {
     const response = await fetch(
       `https://api.airtable.com/v0/appGFSW8qbca5MmEi/tblqkA7jzYJK6Au3M/${recordId}`,
       {
         method: 'PATCH',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
         body: JSON.stringify({ fields })
       }
     );
-    const data = await response.json();
-    if (!response.ok) return res.status(500).json({ error: 'Airtable error', detail: data });
+    return { ok: response.ok, data: await response.json() };
+  };
+
+  try {
+    // Intentar con todos los campos
+    const allFields = {};
+    if (status) allFields['Estado del perfil'] = status;
+    if (reviewedBy !== undefined) allFields['Revisado por'] = reviewedBy;
+    if (notes !== undefined) allFields['Notas del manager'] = notes;
+    allFields['Ultima actualizacion'] = new Date().toISOString();
+
+    let result = await patchAirtable(allFields);
+
+    // Si falla (campos no existen aun), reintentar solo con Estado del perfil
+    if (!result.ok) {
+      const fallback = {};
+      if (status) fallback['Estado del perfil'] = status;
+      result = await patchAirtable(fallback);
+    }
+
+    if (!result.ok) return res.status(500).json({ error: 'Airtable error', detail: result.data });
     return res.status(200).json({ success: true });
   } catch (e) {
     return res.status(500).json({ error: e.message });
