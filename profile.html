@@ -511,6 +511,9 @@ body {
   <!-- FORMULARIO PRINCIPAL -->
   <div id="mainForm" style="display:none;">
 
+    <!-- ESTADO DEL PERFIL -->
+    <div id="statusBanner" style="display:none; margin: 0 auto 24px; max-width: 860px; padding: 0 16px;"></div>
+
     <!-- PASO 0: CÓMO FUNCIONA -->
     <div class="section-card">
       <div class="section-num">Paso 00</div>
@@ -1318,6 +1321,31 @@ async function loadFromAirtable(email) {
         el.classList.add('filled');
       }
     });
+
+    // Mostrar banner de estado
+    const status = data.fields['Estado del perfil'];
+    const reviewer = data.fields['Revisado por'];
+    const notes = data.fields['Notas del manager'];
+    if (status) {
+      const colors = {
+        'Pendiente revisión': { bg: 'rgba(251,191,36,0.1)', border: 'rgba(251,191,36,0.3)', text: '#FCD34D' },
+        'En revisión':        { bg: 'rgba(96,165,250,0.1)', border: 'rgba(96,165,250,0.3)', text: '#93C5FD' },
+        'Falta información':  { bg: 'rgba(248,113,113,0.1)', border: 'rgba(248,113,113,0.3)', text: '#FCA5A5' },
+        'Aprobado':           { bg: 'rgba(52,211,153,0.1)', border: 'rgba(52,211,153,0.3)', text: '#6EE7B7' },
+        'No apto':            { bg: 'rgba(156,163,175,0.1)', border: 'rgba(156,163,175,0.3)', text: '#9CA3AF' },
+      };
+      const c = colors[status] || colors['Pendiente revisión'];
+      const banner = document.getElementById('statusBanner');
+      banner.style.display = 'block';
+      banner.innerHTML = `
+        <div style="background:${c.bg}; border:1px solid ${c.border}; border-radius:12px; padding:16px 20px;">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:${notes?'10px':'0'};">
+            <div style="font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:${c.text};">Estado de tu perfil: ${status}</div>
+            ${reviewer ? `<div style="font-size:11px; color:rgba(255,255,255,0.4); margin-left:auto;">Revisado por: ${reviewer}</div>` : ''}
+          </div>
+          ${notes ? `<div style="font-size:13px; color:rgba(255,255,255,0.7); line-height:1.6;"><strong style="color:${c.text};">Notas:</strong> ${notes}</div>` : ''}
+        </div>`;
+    }
   } catch(e) {}
 }
 

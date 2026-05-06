@@ -159,6 +159,37 @@
   .modal-field-val a { color:var(--gold); text-decoration:none; }
   .modal-field-val a:hover { text-decoration:underline; }
 
+  /* ─── MANAGER PANEL ─── */
+  .manager-panel {
+    background: rgba(245,158,11,0.06); border: 1px solid rgba(245,158,11,0.2);
+    border-radius: 12px; padding: 20px; margin-bottom: 24px;
+  }
+  .manager-panel-title {
+    font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:700;
+    letter-spacing:2px; text-transform:uppercase; color:var(--gold); margin-bottom:14px;
+  }
+  .manager-panel-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .manager-panel-field { display:flex; flex-direction:column; gap:6px; }
+  .manager-panel-field.full { grid-column:1/-1; }
+  .manager-panel-label { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; }
+  .manager-select, .manager-input, .manager-textarea {
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+    border-radius:8px; padding:10px 12px; color:var(--text); font-size:13px;
+    font-family:'Inter',sans-serif; outline:none; transition:border-color 0.2s;
+  }
+  .manager-select option { background:#04112b; }
+  .manager-textarea { resize:vertical; min-height:70px; }
+  .manager-select:focus, .manager-input:focus, .manager-textarea:focus { border-color:rgba(245,158,11,0.4); }
+  .manager-save-btn {
+    background:var(--gold); color:#04112b; font-family:'Barlow Condensed',sans-serif;
+    font-size:14px; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+    border:none; border-radius:8px; padding:11px 24px; cursor:pointer;
+    transition:opacity 0.2s; margin-top:4px;
+  }
+  .manager-save-btn:hover { opacity:0.85; }
+  .manager-save-btn:disabled { opacity:0.5; cursor:default; }
+  .manager-saved-msg { font-size:12px; color:#6EE7B7; margin-top:8px; display:none; }
+
   /* ─── EMPTY / LOADING ─── */
   .state-msg {
     text-align:center; padding:80px 32px; color:var(--muted); font-size:14px;
@@ -388,9 +419,15 @@ function renderProfiles(records) {
   }).join('');
 }
 
+let currentRecordId = null;
+let currentModalIndex = null;
+
 function openModal(index) {
-  const f = allRecords[index].fields;
+  const record = allRecords[index];
+  const f = record.fields;
   const name = f['Name'] || 'Sin nombre';
+  currentRecordId = record.id;
+  currentModalIndex = index;
 
   const section = (title, fields) => {
     const rows = fields.filter(([,v]) => v).map(([label, v, full]) => `
@@ -406,11 +443,45 @@ function openModal(index) {
   };
 
   const link = url => url ? `<a href="${url}" target="_blank">${url}</a>` : '';
+  const currentStatus = f['Estado del perfil'] || 'Pendiente revisión';
+  const currentReviewer = f['Revisado por'] || '';
+  const currentNotes = f['Notas del manager'] || '';
+  const lastUpdate = f['Última actualización'] ? formatDate(f['Última actualización']) : '—';
 
   const content = `
     <button class="modal-close" onclick="closeModal()">✕</button>
     <div class="modal-name">${name}</div>
     <div class="modal-sport">${[f['Deporte'], f['Posición']].filter(Boolean).join(' · ') || '—'}</div>
+
+    <!-- PANEL DE GESTIÓN -->
+    <div class="manager-panel">
+      <div class="manager-panel-title">Gestión del perfil</div>
+      <div class="manager-panel-grid">
+        <div class="manager-panel-field">
+          <label class="manager-panel-label">Estado</label>
+          <select class="manager-select" id="mgr-status">
+            <option ${currentStatus==='Pendiente revisión'?'selected':''}>Pendiente revisión</option>
+            <option ${currentStatus==='En revisión'?'selected':''}>En revisión</option>
+            <option ${currentStatus==='Falta información'?'selected':''}>Falta información</option>
+            <option ${currentStatus==='Aprobado'?'selected':''}>Aprobado</option>
+            <option ${currentStatus==='No apto'?'selected':''}>No apto</option>
+          </select>
+        </div>
+        <div class="manager-panel-field">
+          <label class="manager-panel-label">Revisado por</label>
+          <input class="manager-input" id="mgr-reviewer" type="text" placeholder="Nombre del agente/manager" value="${currentReviewer}">
+        </div>
+        <div class="manager-panel-field full">
+          <label class="manager-panel-label">Notas internas (visibles para el atleta)</label>
+          <textarea class="manager-textarea" id="mgr-notes" placeholder="Ej: Falta video de highlights, mejorar GPA...">${currentNotes}</textarea>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; gap:16px; margin-top:12px;">
+        <button class="manager-save-btn" id="mgr-save-btn" onclick="saveStatus()">Guardar cambios</button>
+        <div class="manager-saved-msg" id="mgr-saved-msg">✓ Guardado</div>
+      </div>
+      ${lastUpdate !== '—' ? `<div style="font-size:11px; color:var(--muted); margin-top:8px;">Última actualización: ${lastUpdate}</div>` : ''}
+    </div>
 
     ${section('Información Personal', [
       ['Correo', f['Correo']],
@@ -463,8 +534,7 @@ function openModal(index) {
       ['Visa negada', f['Visa negada']],
     ])}
 
-    ${section('Estado', [
-      ['Estado del perfil', f['Estado del perfil']],
+    ${section('Envío', [
       ['Fecha de envío', formatDate(f['Fecha de envío'])],
     ])}
   `;
@@ -472,6 +542,37 @@ function openModal(index) {
   document.getElementById('modalContent').innerHTML = content;
   document.getElementById('modalOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
+}
+
+async function saveStatus() {
+  const status = document.getElementById('mgr-status').value;
+  const reviewedBy = document.getElementById('mgr-reviewer').value;
+  const notes = document.getElementById('mgr-notes').value;
+  const btn = document.getElementById('mgr-save-btn');
+  const savedMsg = document.getElementById('mgr-saved-msg');
+
+  btn.textContent = 'Guardando...';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch('/api/update-profile-status', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: managerPw, recordId: currentRecordId, status, reviewedBy, notes })
+    });
+    if (res.ok) {
+      // Actualizar record local para que la tarjeta refleje el cambio
+      allRecords[currentModalIndex].fields['Estado del perfil'] = status;
+      allRecords[currentModalIndex].fields['Revisado por'] = reviewedBy;
+      allRecords[currentModalIndex].fields['Notas del manager'] = notes;
+      renderProfiles(allRecords);
+      savedMsg.style.display = 'inline';
+      setTimeout(() => { savedMsg.style.display = 'none'; }, 3000);
+    }
+  } catch(e) {}
+
+  btn.textContent = 'Guardar cambios';
+  btn.disabled = false;
 }
 
 function closeModal() {
