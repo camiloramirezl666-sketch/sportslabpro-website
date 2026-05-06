@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sports Lab Pro — Manager Dashboard</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #04112b;
+    --navy2: #061830;
+    --gold: #F59E0B;
+    --text: #e8e4dc;
+    --muted: rgba(232,228,220,0.45);
+    --border: rgba(255,255,255,0.08);
+    --card: rgba(255,255,255,0.04);
+  }
+  body { background: var(--navy); color: var(--text); font-family: 'Inter', sans-serif; font-size: 14px; min-height: 100vh; }
+
+  /* ─── GATE ─── */
+  #gate {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+  }
+  .gate-box {
+    background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+    border-radius: 16px; padding: 48px; text-align: center; max-width: 380px; width: 100%;
+  }
+  .gate-logo { font-family:'Barlow Condensed',sans-serif; font-size:22px; font-weight:700; letter-spacing:3px; color:var(--gold); margin-bottom:8px; }
+  .gate-sub { font-size:12px; color:var(--muted); letter-spacing:2px; text-transform:uppercase; margin-bottom:32px; }
+  .gate-input {
+    width:100%; background:rgba(255,255,255,0.06); border:1px solid var(--border);
+    border-radius:8px; padding:14px 16px; color:var(--text); font-size:15px;
+    outline:none; margin-bottom:12px; transition:border-color 0.2s;
+  }
+  .gate-input:focus { border-color:rgba(245,158,11,0.4); }
+  .gate-btn {
+    width:100%; background:var(--gold); color:#04112b; font-family:'Barlow Condensed',sans-serif;
+    font-size:15px; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+    border:none; border-radius:8px; padding:14px; cursor:pointer; transition:opacity 0.2s;
+  }
+  .gate-btn:hover { opacity:0.85; }
+  .gate-error { font-size:13px; color:#f87171; margin-top:12px; display:none; }
+
+  /* ─── DASHBOARD ─── */
+  #dashboard { display:none; }
+
+  .top-bar {
+    background:rgba(0,0,0,0.3); border-bottom:1px solid var(--border);
+    padding:16px 32px; display:flex; align-items:center; justify-content:space-between;
+    position:sticky; top:0; z-index:100;
+  }
+  .top-bar-logo { font-family:'Barlow Condensed',sans-serif; font-size:18px; font-weight:700; letter-spacing:3px; color:var(--gold); }
+  .top-bar-right { display:flex; align-items:center; gap:16px; }
+  .total-badge { background:rgba(245,158,11,0.15); border:1px solid rgba(245,158,11,0.3); border-radius:999px; padding:4px 14px; font-size:12px; color:var(--gold); font-weight:600; }
+  .logout-btn { font-size:12px; color:var(--muted); cursor:pointer; background:none; border:none; letter-spacing:1px; text-transform:uppercase; }
+  .logout-btn:hover { color:var(--text); }
+
+  .controls {
+    padding:20px 32px; display:flex; gap:12px; flex-wrap:wrap; align-items:center;
+    border-bottom:1px solid var(--border);
+  }
+  .search-input {
+    background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:8px;
+    padding:10px 16px; color:var(--text); font-size:13px; outline:none; min-width:240px;
+    transition:border-color 0.2s;
+  }
+  .search-input:focus { border-color:rgba(245,158,11,0.3); }
+  .filter-select {
+    background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:8px;
+    padding:10px 14px; color:var(--text); font-size:13px; outline:none; cursor:pointer;
+  }
+  .filter-select option { background:#04112b; }
+  .controls-right { margin-left:auto; font-size:12px; color:var(--muted); }
+
+  .profiles-grid {
+    padding:24px 32px;
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(340px, 1fr)); gap:16px;
+  }
+
+  /* ─── PROFILE CARD ─── */
+  .profile-card {
+    background:var(--card); border:1px solid var(--border); border-radius:12px;
+    overflow:hidden; cursor:pointer; transition:border-color 0.2s, transform 0.15s;
+  }
+  .profile-card:hover { border-color:rgba(245,158,11,0.3); transform:translateY(-2px); }
+
+  .card-header {
+    padding:16px 20px; display:flex; align-items:center; gap:12px;
+    border-bottom:1px solid var(--border);
+  }
+  .card-avatar {
+    width:44px; height:44px; border-radius:50%; background:rgba(245,158,11,0.15);
+    border:1px solid rgba(245,158,11,0.3); display:flex; align-items:center; justify-content:center;
+    font-family:'Barlow Condensed',sans-serif; font-size:18px; font-weight:700; color:var(--gold);
+    flex-shrink:0;
+  }
+  .card-name { font-weight:600; font-size:15px; margin-bottom:2px; }
+  .card-sport { font-size:12px; color:var(--muted); }
+  .card-status { margin-left:auto; }
+  .status-pill {
+    font-size:10px; font-weight:600; letter-spacing:1px; text-transform:uppercase;
+    padding:3px 10px; border-radius:999px;
+  }
+  .status-pendiente { background:rgba(251,191,36,0.15); color:#FCD34D; border:1px solid rgba(251,191,36,0.3); }
+  .status-aprobado { background:rgba(52,211,153,0.15); color:#6EE7B7; border:1px solid rgba(52,211,153,0.3); }
+  .status-revision { background:rgba(96,165,250,0.15); color:#93C5FD; border:1px solid rgba(96,165,250,0.3); }
+
+  .card-body { padding:16px 20px; display:grid; grid-template-columns:1fr 1fr; gap:8px 16px; }
+  .card-field { }
+  .card-field-label { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:2px; }
+  .card-field-val { font-size:13px; color:var(--text); }
+  .card-field.full { grid-column:1/-1; }
+
+  .card-footer {
+    padding:10px 20px; border-top:1px solid var(--border);
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .card-date { font-size:11px; color:var(--muted); }
+  .card-expand { font-size:11px; color:var(--gold); text-transform:uppercase; letter-spacing:1px; }
+
+  .video-link {
+    display:inline-flex; align-items:center; gap:4px; color:var(--gold);
+    font-size:12px; text-decoration:none;
+  }
+  .video-link:hover { text-decoration:underline; }
+
+  /* ─── MODAL ─── */
+  .modal-overlay {
+    display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75);
+    z-index:200; align-items:flex-start; justify-content:center; padding:32px 16px;
+    overflow-y:auto;
+  }
+  .modal-overlay.open { display:flex; }
+  .modal {
+    background:#061830; border:1px solid var(--border); border-radius:16px;
+    width:100%; max-width:680px; padding:32px; position:relative;
+  }
+  .modal-close {
+    position:absolute; top:20px; right:20px; background:none; border:none;
+    color:var(--muted); cursor:pointer; font-size:20px; line-height:1;
+  }
+  .modal-close:hover { color:var(--text); }
+  .modal-name { font-family:'Barlow Condensed',sans-serif; font-size:28px; font-weight:700; margin-bottom:4px; }
+  .modal-sport { font-size:13px; color:var(--muted); margin-bottom:24px; }
+
+  .modal-section { margin-bottom:24px; }
+  .modal-section-title {
+    font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:700;
+    letter-spacing:2px; text-transform:uppercase; color:var(--gold);
+    margin-bottom:12px; padding-bottom:6px; border-bottom:1px solid var(--border);
+  }
+  .modal-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px 20px; }
+  .modal-field-label { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:2px; }
+  .modal-field-val { font-size:13px; color:var(--text); line-height:1.5; }
+  .modal-field.full { grid-column:1/-1; }
+  .modal-field-val a { color:var(--gold); text-decoration:none; }
+  .modal-field-val a:hover { text-decoration:underline; }
+
+  /* ─── EMPTY / LOADING ─── */
+  .state-msg {
+    text-align:center; padding:80px 32px; color:var(--muted); font-size:14px;
+  }
+  .spinner {
+    width:32px; height:32px; border:3px solid var(--border); border-top-color:var(--gold);
+    border-radius:50%; animation:spin 0.8s linear infinite; margin:0 auto 16px;
+  }
+  @keyframes spin { to { transform:rotate(360deg); } }
+
+  @media (max-width:600px) {
+    .top-bar { padding:12px 16px; }
+    .controls { padding:14px 16px; }
+    .profiles-grid { padding:16px; grid-template-columns:1fr; }
+    .modal { padding:20px; }
+    .modal-grid { grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- GATE -->
+<div id="gate">
+  <div class="gate-box">
+    <div class="gate-logo">SPORTS LAB PRO</div>
+    <div class="gate-sub">Manager Dashboard</div>
+    <input type="password" class="gate-input" id="pwInput" placeholder="Contraseña de acceso" onkeydown="if(event.key==='Enter')login()">
+    <button class="gate-btn" onclick="login()">Entrar</button>
+    <div class="gate-error" id="gateError">Contraseña incorrecta</div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <div class="top-bar">
+    <div class="top-bar-logo">SLP — Managers</div>
+    <div class="top-bar-right">
+      <div class="total-badge" id="totalBadge">0 perfiles</div>
+      <button class="logout-btn" onclick="logout()">Salir</button>
+    </div>
+  </div>
+
+  <div class="controls">
+    <input type="text" class="search-input" id="searchInput" placeholder="Buscar por nombre, correo, deporte..." oninput="filterProfiles()">
+    <select class="filter-select" id="sportFilter" onchange="filterProfiles()">
+      <option value="">Todos los deportes</option>
+    </select>
+    <select class="filter-select" id="statusFilter" onchange="filterProfiles()">
+      <option value="">Todos los estados</option>
+      <option>Pendiente revisión</option>
+      <option>Aprobado</option>
+      <option>En revisión</option>
+    </select>
+    <div class="controls-right" id="countLabel"></div>
+  </div>
+
+  <div id="profilesContainer" class="profiles-grid"></div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="modalContent"></div>
+</div>
+
+<script>
+let allRecords = [];
+let managerPw = '';
+
+async function login() {
+  const pw = document.getElementById('pwInput').value;
+  const errEl = document.getElementById('gateError');
+  errEl.style.display = 'none';
+  if (!pw) return;
+
+  const btn = document.querySelector('.gate-btn');
+  btn.textContent = 'VERIFICANDO...';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch('/api/manager-profiles', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: pw })
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      errEl.style.display = 'block';
+      btn.textContent = 'Entrar'; btn.disabled = false;
+      return;
+    }
+    managerPw = pw;
+    allRecords = data.records || [];
+    document.getElementById('gate').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    renderProfiles(allRecords);
+    buildFilters();
+  } catch(e) {
+    errEl.textContent = 'Error de conexión';
+    errEl.style.display = 'block';
+    btn.textContent = 'Entrar'; btn.disabled = false;
+  }
+}
+
+function logout() {
+  managerPw = '';
+  allRecords = [];
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('gate').style.display = 'flex';
+  document.getElementById('pwInput').value = '';
+}
+
+function buildFilters() {
+  const sports = [...new Set(allRecords.map(r => r.fields['Deporte']).filter(Boolean))].sort();
+  const sel = document.getElementById('sportFilter');
+  sports.forEach(s => {
+    const o = document.createElement('option');
+    o.textContent = s; sel.appendChild(o);
+  });
+}
+
+function filterProfiles() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const sport = document.getElementById('sportFilter').value;
+  const status = document.getElementById('statusFilter').value;
+  const filtered = allRecords.filter(r => {
+    const f = r.fields;
+    const matchQ = !q ||
+      (f['Name'] || '').toLowerCase().includes(q) ||
+      (f['Correo'] || '').toLowerCase().includes(q) ||
+      (f['Deporte'] || '').toLowerCase().includes(q) ||
+      (f['País'] || '').toLowerCase().includes(q);
+    const matchSport = !sport || f['Deporte'] === sport;
+    const matchStatus = !status || (f['Estado del perfil'] || '').includes(status);
+    return matchQ && matchSport && matchStatus;
+  });
+  renderProfiles(filtered);
+}
+
+function getInitials(name) {
+  if (!name) return '?';
+  return name.trim().split(' ').slice(0, 2).map(w => w[0]).join('').toUpperCase();
+}
+
+function getStatusClass(status) {
+  if (!status) return 'status-pendiente';
+  if (status.toLowerCase().includes('aprob')) return 'status-aprobado';
+  if (status.toLowerCase().includes('revisi')) return 'status-revision';
+  return 'status-pendiente';
+}
+
+function formatDate(iso) {
+  if (!iso) return '—';
+  return new Date(iso).toLocaleDateString('es-CO', { year:'numeric', month:'short', day:'numeric' });
+}
+
+function val(v) { return v || '—'; }
+
+function renderProfiles(records) {
+  const container = document.getElementById('profilesContainer');
+  document.getElementById('totalBadge').textContent = allRecords.length + ' perfiles';
+  document.getElementById('countLabel').textContent = records.length === allRecords.length
+    ? '' : `${records.length} de ${allRecords.length} mostrados`;
+
+  if (records.length === 0) {
+    container.innerHTML = '<div class="state-msg">No se encontraron perfiles.</div>';
+    return;
+  }
+
+  container.innerHTML = records.map((r, i) => {
+    const f = r.fields;
+    const name = f['Name'] || 'Sin nombre';
+    const sport = [f['Deporte'], f['Posición']].filter(Boolean).join(' · ');
+    const status = f['Estado del perfil'] || 'Pendiente revisión';
+    const statusClass = getStatusClass(status);
+    const highlights = f['Video highlights'];
+
+    return `
+    <div class="profile-card" onclick="openModal(${i})">
+      <div class="card-header">
+        <div class="card-avatar">${getInitials(name)}</div>
+        <div>
+          <div class="card-name">${name}</div>
+          <div class="card-sport">${sport || '—'}</div>
+        </div>
+        <div class="card-status">
+          <span class="status-pill ${statusClass}">${status}</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-field">
+          <div class="card-field-label">País</div>
+          <div class="card-field-val">${val(f['País'])}</div>
+        </div>
+        <div class="card-field">
+          <div class="card-field-label">Edad</div>
+          <div class="card-field-val">${val(f['Edad'])}</div>
+        </div>
+        <div class="card-field">
+          <div class="card-field-label">Graduación</div>
+          <div class="card-field-val">${val(f['Año de graduación'])}</div>
+        </div>
+        <div class="card-field">
+          <div class="card-field-label">Inglés</div>
+          <div class="card-field-val">${val(f['Nivel de inglés'])}</div>
+        </div>
+        <div class="card-field">
+          <div class="card-field-label">Presupuesto</div>
+          <div class="card-field-val">${val(f['Presupuesto anual'])}</div>
+        </div>
+        <div class="card-field">
+          <div class="card-field-label">WhatsApp</div>
+          <div class="card-field-val">${val(f['WhatsApp'])}</div>
+        </div>
+        ${highlights ? `<div class="card-field full">
+          <div class="card-field-label">Highlights</div>
+          <div class="card-field-val"><a class="video-link" href="${highlights}" target="_blank" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Ver video
+          </a></div>
+        </div>` : ''}
+      </div>
+      <div class="card-footer">
+        <div class="card-date">Enviado: ${formatDate(f['Fecha de envío'])}</div>
+        <div class="card-expand">Ver perfil completo →</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openModal(index) {
+  const f = allRecords[index].fields;
+  const name = f['Name'] || 'Sin nombre';
+
+  const section = (title, fields) => {
+    const rows = fields.filter(([,v]) => v).map(([label, v, full]) => `
+      <div class="modal-field${full?' full':''}">
+        <div class="modal-field-label">${label}</div>
+        <div class="modal-field-val">${v}</div>
+      </div>`).join('');
+    if (!rows) return '';
+    return `<div class="modal-section">
+      <div class="modal-section-title">${title}</div>
+      <div class="modal-grid">${rows}</div>
+    </div>`;
+  };
+
+  const link = url => url ? `<a href="${url}" target="_blank">${url}</a>` : '';
+
+  const content = `
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-name">${name}</div>
+    <div class="modal-sport">${[f['Deporte'], f['Posición']].filter(Boolean).join(' · ') || '—'}</div>
+
+    ${section('Información Personal', [
+      ['Correo', f['Correo']],
+      ['WhatsApp', f['WhatsApp']],
+      ['País', f['País']],
+      ['Ciudad', f['Ciudad']],
+      ['Edad', f['Edad']],
+      ['Fecha de nacimiento', f['Fecha de nacimiento']],
+    ])}
+
+    ${section('Perfil Académico', [
+      ['Colegio o club', f['Colegio o club']],
+      ['Año de graduación', f['Año de graduación']],
+      ['Colegio académico', f['Colegio académico']],
+      ['Promedio (GPA)', f['Promedio académico']],
+      ['Carrera deseada', f['Carrera deseada']],
+      ['Fortalezas académicas', f['Fortalezas académicas'], true],
+    ])}
+
+    ${section('Perfil Deportivo', [
+      ['Estatura', f['Estatura']],
+      ['Peso', f['Peso']],
+      ['Logros deportivos', f['Logros deportivos'], true],
+      ['Estadísticas', f['Estadísticas'], true],
+      ['Nombre entrenador', f['Nombre entrenador']],
+      ['Contacto entrenador', f['Contacto entrenador']],
+      ['Lesiones', f['Lesiones']],
+      ['Frecuencia entrenamiento', f['Frecuencia entrenamiento']],
+      ['Por qué considerarlo', f['Por qué considerarte'], true],
+    ])}
+
+    ${section('Videos', [
+      ['Video highlights', link(f['Video highlights']), true],
+      ['Video partido completo', link(f['Video partido completo']), true],
+      ['Notas del video', f['Notas del video'], true],
+    ])}
+
+    ${section('Inglés', [
+      ['Nivel actual', f['Nivel de inglés']],
+      ['Examen presentado', f['Examen de inglés']],
+      ['Puntaje', f['Puntaje inglés']],
+      ['Fecha examen', f['Fecha examen inglés']],
+    ])}
+
+    ${section('Presupuesto y Documentos', [
+      ['Presupuesto anual', f['Presupuesto anual']],
+      ['Máximo a pagar', f['Máximo a pagar']],
+      ['Pasaporte', f['Pasaporte']],
+      ['Visa previa USA', f['Visa previa USA']],
+      ['Visa negada', f['Visa negada']],
+    ])}
+
+    ${section('Estado', [
+      ['Estado del perfil', f['Estado del perfil']],
+      ['Fecha de envío', formatDate(f['Fecha de envío'])],
+    ])}
+  `;
+
+  document.getElementById('modalContent').innerHTML = content;
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>
