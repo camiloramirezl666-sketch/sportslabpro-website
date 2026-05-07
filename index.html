@@ -792,23 +792,22 @@ nav.scrolled {
 
 /* ─── REVIEWS ─── */
 .reviews-section { background: var(--navy2); }
+@keyframes reviews-marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
 .reviews-track-wrap {
   position: relative;
   margin-top: 64px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scrollbar-width: none;
-  cursor: grab;
-  padding: 0 48px 24px;
+  overflow: hidden;
+  padding: 0 0 24px;
 }
-.reviews-track-wrap::-webkit-scrollbar { display: none; }
-.reviews-track-wrap.is-dragging { cursor: grabbing; }
 .reviews-track-wrap::before,
 .reviews-track-wrap::after {
   content: '';
   position: absolute;
   top: 0; bottom: 0;
-  width: 80px;
+  width: 120px;
   z-index: 2;
   pointer-events: none;
 }
@@ -818,6 +817,11 @@ nav.scrolled {
   display: flex;
   gap: 20px;
   width: max-content;
+  animation: reviews-marquee 38s linear infinite;
+}
+.reviews-track-wrap:hover .reviews-track,
+.reviews-track-wrap.is-paused .reviews-track {
+  animation-play-state: paused;
 }
 .review-card {
   width: 340px;
@@ -2444,25 +2448,19 @@ counters.forEach(el => counterObserver.observe(el));
 
 // FAQ toggle
 // ─── DRAG TO SCROLL — REVIEWS ───
+// Reviews infinite marquee
+const track = document.querySelector('.reviews-track');
 const trackWrap = document.querySelector('.reviews-track-wrap');
-let isDragging = false, startX, scrollLeft;
-trackWrap.addEventListener('mousedown', e => {
-  isDragging = true;
-  trackWrap.classList.add('is-dragging');
-  startX = e.pageX - trackWrap.offsetLeft;
-  scrollLeft = trackWrap.scrollLeft;
+// Duplicate cards for seamless loop
+const cards = Array.from(track.children);
+cards.forEach(card => {
+  const clone = card.cloneNode(true);
+  clone.setAttribute('aria-hidden', 'true');
+  track.appendChild(clone);
 });
-trackWrap.addEventListener('mouseleave', () => { isDragging = false; trackWrap.classList.remove('is-dragging'); });
-trackWrap.addEventListener('mouseup', () => { isDragging = false; trackWrap.classList.remove('is-dragging'); });
-trackWrap.addEventListener('mousemove', e => {
-  if (!isDragging) return;
-  e.preventDefault();
-  const x = e.pageX - trackWrap.offsetLeft;
-  trackWrap.scrollLeft = scrollLeft - (x - startX) * 1.2;
-});
-// Touch support
-trackWrap.addEventListener('touchstart', e => { startX = e.touches[0].pageX - trackWrap.offsetLeft; scrollLeft = trackWrap.scrollLeft; }, { passive: true });
-trackWrap.addEventListener('touchmove', e => { const x = e.touches[0].pageX - trackWrap.offsetLeft; trackWrap.scrollLeft = scrollLeft - (x - startX) * 1.2; }, { passive: true });
+// Pause on touch (mobile)
+trackWrap.addEventListener('touchstart', () => trackWrap.classList.add('is-paused'), { passive: true });
+trackWrap.addEventListener('touchend', () => trackWrap.classList.remove('is-paused'), { passive: true });
 
 function toggleFaq(btn) {
   const item = btn.closest('.faq-item');
