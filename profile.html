@@ -512,7 +512,8 @@ body {
   <div id="mainForm" style="display:none;">
 
     <!-- ESTADO DEL PERFIL -->
-    <div id="statusBanner" style="display:none; margin: 0 auto 24px; max-width: 860px; padding: 0 16px;"></div>
+    <!-- WIDGET DE ESTADO DE REVISIÓN -->
+    <div id="statusWidget" style="display:none; margin: 0 auto 32px; max-width: 860px; padding: 0 16px;"></div>
 
     <!-- PASO 0: CÓMO FUNCIONA -->
     <div class="section-card">
@@ -1322,28 +1323,71 @@ async function loadFromAirtable(email) {
       }
     });
 
-    // Mostrar banner de estado
+    // Mostrar widget de estado
     const status = data.fields['Estado del perfil'];
     const reviewer = data.fields['Revisado por'];
     const notes = data.fields['Notas del manager'];
     if (status) {
-      const colors = {
-        'Pendiente revisión': { bg: 'rgba(251,191,36,0.1)', border: 'rgba(251,191,36,0.3)', text: '#FCD34D' },
-        'En revisión':        { bg: 'rgba(96,165,250,0.1)', border: 'rgba(96,165,250,0.3)', text: '#93C5FD' },
-        'Falta información':  { bg: 'rgba(248,113,113,0.1)', border: 'rgba(248,113,113,0.3)', text: '#FCA5A5' },
-        'Aprobado':           { bg: 'rgba(52,211,153,0.1)', border: 'rgba(52,211,153,0.3)', text: '#6EE7B7' },
-        'No apto':            { bg: 'rgba(156,163,175,0.1)', border: 'rgba(156,163,175,0.3)', text: '#9CA3AF' },
+      const cfg = {
+        'Pendiente revisión': {
+          bg: 'rgba(251,191,36,0.08)', border: 'rgba(251,191,36,0.25)', accent: '#FCD34D',
+          icon: '⏳', badge: 'PENDIENTE', badgeBg: 'rgba(251,191,36,0.2)', badgeColor: '#FCD34D',
+          headline: 'Tu perfil está en la cola de revisión',
+          sub: 'Nuestros agentes lo revisarán pronto. Te notificaremos cuando haya novedades.'
+        },
+        'En revisión': {
+          bg: 'rgba(96,165,250,0.08)', border: 'rgba(96,165,250,0.25)', accent: '#93C5FD',
+          icon: '🔍', badge: 'EN REVISIÓN', badgeBg: 'rgba(96,165,250,0.2)', badgeColor: '#93C5FD',
+          headline: 'Tu perfil está siendo revisado ahora',
+          sub: 'Uno de nuestros agentes está analizando tu perfil. Pronto tendrás respuesta.'
+        },
+        'Falta información': {
+          bg: 'rgba(251,146,60,0.08)', border: 'rgba(251,146,60,0.3)', accent: '#FB923C',
+          icon: '⚠️', badge: 'FALTA INFORMACIÓN', badgeBg: 'rgba(251,146,60,0.2)', badgeColor: '#FB923C',
+          headline: 'Tu perfil necesita más información',
+          sub: 'Nuestros agentes revisaron tu perfil y detectaron que faltan datos. Lee las notas abajo y actualiza tu perfil.'
+        },
+        'Aprobado': {
+          bg: 'rgba(52,211,153,0.08)', border: 'rgba(52,211,153,0.3)', accent: '#34D399',
+          icon: '✅', badge: 'APROBADO', badgeBg: 'rgba(52,211,153,0.2)', badgeColor: '#34D399',
+          headline: '¡Felicidades! Tu perfil fue aprobado',
+          sub: 'Nuestros agentes revisaron tu perfil y está listo para ser enviado a universidades. Pronto nos pondremos en contacto contigo.'
+        },
+        'No apto': {
+          bg: 'rgba(156,163,175,0.08)', border: 'rgba(156,163,175,0.25)', accent: '#9CA3AF',
+          icon: '❌', badge: 'NO APTO', badgeBg: 'rgba(156,163,175,0.2)', badgeColor: '#9CA3AF',
+          headline: 'Tu perfil no cumple los requisitos actuales',
+          sub: 'Lamentablemente tu perfil no cumple los criterios en este momento. Lee las notas de tu agente para más detalles.'
+        },
       };
-      const c = colors[status] || colors['Pendiente revisión'];
-      const banner = document.getElementById('statusBanner');
-      banner.style.display = 'block';
-      banner.innerHTML = `
-        <div style="background:${c.bg}; border:1px solid ${c.border}; border-radius:12px; padding:16px 20px;">
-          <div style="display:flex; align-items:center; gap:10px; margin-bottom:${notes?'10px':'0'};">
-            <div style="font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:${c.text};">Estado de tu perfil: ${status}</div>
-            ${reviewer ? `<div style="font-size:11px; color:rgba(255,255,255,0.4); margin-left:auto;">Revisado por: ${reviewer}</div>` : ''}
+      const c = cfg[status] || cfg['Pendiente revisión'];
+      const widget = document.getElementById('statusWidget');
+      widget.style.display = 'block';
+      widget.innerHTML = `
+        <div style="background:${c.bg}; border:1px solid ${c.border}; border-radius:16px; overflow:hidden;">
+          <!-- Header del widget -->
+          <div style="padding:20px 24px 16px; border-bottom:1px solid ${c.border}; display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
+            <div style="font-size:28px; line-height:1;">${c.icon}</div>
+            <div style="flex:1; min-width:200px;">
+              <div style="font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-bottom:4px;">Estado de tu aplicación</div>
+              <div style="font-size:17px; font-weight:700; color:#fff;">${c.headline}</div>
+            </div>
+            <div style="background:${c.badgeBg}; color:${c.badgeColor}; border:1px solid ${c.border}; border-radius:100px; padding:6px 16px; font-size:11px; font-weight:800; letter-spacing:2px; white-space:nowrap;">${c.badge}</div>
           </div>
-          ${notes ? `<div style="font-size:13px; color:rgba(255,255,255,0.7); line-height:1.6;"><strong style="color:${c.text};">Notas:</strong> ${notes}</div>` : ''}
+          <!-- Cuerpo -->
+          <div style="padding:18px 24px;">
+            <p style="font-size:14px; color:rgba(255,255,255,0.6); margin:0 0 ${notes?'16px':'0'}; line-height:1.6;">${c.sub}</p>
+            ${notes ? `
+            <div style="background:rgba(255,255,255,0.05); border-left:3px solid ${c.accent}; border-radius:0 8px 8px 0; padding:14px 16px;">
+              <div style="font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:${c.accent}; margin-bottom:6px;">📋 Notas de tu agente</div>
+              <div style="font-size:14px; color:rgba(255,255,255,0.85); line-height:1.7;">${notes}</div>
+            </div>` : ''}
+          </div>
+          <!-- Footer -->
+          <div style="padding:12px 24px; background:rgba(0,0,0,0.2); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+            <div style="font-size:11px; color:rgba(255,255,255,0.3);">Sports Lab Pro · Sistema de seguimiento</div>
+            ${reviewer ? `<div style="font-size:11px; color:rgba(255,255,255,0.3);">Revisado por: <span style="color:rgba(255,255,255,0.5);">${reviewer}</span></div>` : ''}
+          </div>
         </div>`;
     }
   } catch(e) {}
