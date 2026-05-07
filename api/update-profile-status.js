@@ -25,16 +25,15 @@ module.exports = async function handler(req, res) {
   };
 
   try {
-    // Intentar con todos los campos
-    const allFields = {};
-    if (status) allFields['Estado del perfil'] = status;
-    if (reviewedBy !== undefined) allFields['Revisado por'] = reviewedBy;
-    if (notes !== undefined) allFields['Notas del manager'] = notes;
-    allFields['Ultima actualizacion'] = new Date().toISOString();
+    // Guardar los campos principales (sin Ultima actualizacion que puede no existir)
+    const fields = {};
+    if (status) fields['Estado del perfil'] = status;
+    if (reviewedBy !== undefined) fields['Revisado por'] = reviewedBy;
+    if (notes !== undefined) fields['Notas del manager'] = notes;
 
-    let result = await patchAirtable(allFields);
+    let result = await patchAirtable(fields);
 
-    // Si falla (campos no existen aun), reintentar solo con Estado del perfil
+    // Si falla, intentar solo con Estado del perfil como último recurso
     if (!result.ok) {
       const fallback = {};
       if (status) fallback['Estado del perfil'] = status;
